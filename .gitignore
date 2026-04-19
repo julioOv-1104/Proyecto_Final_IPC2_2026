@@ -1,0 +1,37 @@
+# Archivos compilados
+*.class
+
+# Logs
+*.log
+
+# Carpetas de salida
+/bin/
+/out/
+/target/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Proyectos específicos
+/Practica1_IPC2_pizzaTycoon/target/
+/Proyecto1_IPC2_2026/target/
+
+# Angular
+node_modules/
+dist/
+.angular/
+.angular/cache
+coverage/
+
+# Temporales
+tmp/
+temp/
+
+# Entorno
+.env
+
+# OS
+.DS_Store
+Thumbs.db
