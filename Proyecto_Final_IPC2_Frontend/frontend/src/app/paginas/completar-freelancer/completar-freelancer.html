@@ -1,0 +1,43 @@
+<div class="crear-paquetes-page">
+    <h1>Completa la informacion de Freelancers antes de empezar a usar la aplicacion</h1>
+    <section class="form-card">
+
+
+
+        <header class="form-header">
+            <p>Completa los datos y continua</p>
+        </header>
+
+        <form  class="paquete-form">
+             <div class="field-full">
+                <label for="biografia">Descripcion o biografia profesional</label>
+                <textarea [(ngModel)]="biografia" name="biografia" id="biografia" rows="3"></textarea>
+            </div>
+            <div class="form-grid">
+
+                <div class="form-group">
+                <label for="nivel_experiencia">Nivel de experiencia</label>
+                <select [(ngModel)]="nivel_experiencia" name="nivel_experiencia" id="nivel_experiencia" class="form-input" required>
+                    <option value="1">Junio</option>
+                    <option value="2">Semi-Senior</option>
+                    <option value="3">Senior</option>
+                </select>
+            </div>
+
+                <div class="field">
+                    <label for="tarifa_hora">Tarifa por hora referencial </label>
+                    <input [(ngModel)]="tarifa_hora" type="text" name="tarifa_hora" id="tarifa_hora" required>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button (click)="registrarInfo()" type="submit" class="btn-submit">Registrar informacion</button>
+            </div>
+
+        </form>
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>

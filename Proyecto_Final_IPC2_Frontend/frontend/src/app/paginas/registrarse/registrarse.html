@@ -1,0 +1,65 @@
+<div class="login-container">
+
+    <div class="login-box">
+        <h1>Bienvenido a ConnectWork</h1>
+        <h1>Crea tu cuenta </h1>
+
+        <form>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" [(ngModel)]="nombre_completo" id="nombre" name="nombre" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="nombre_usuario">Nombre de usuario</label>
+                <input type="text" [(ngModel)]="username" id="nombre_usuario" name="nombre_usuario" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="contrasena">Contraseña:</label>
+                <input type="text" [(ngModel)]="password" id="password" name="password" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo Electronico</label>
+                <input type="email" [(ngModel)]="correo" id="correo" name="correo" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">telefono</label>
+                <input type="text" [(ngModel)]="telefono" id="telefono" name="telefono" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Direccion</label>
+                <input type="text" [(ngModel)]="direccion" id="direccion" name="direccion" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="cui">CUI</label>
+                <input type="text" [(ngModel)]="cui" id="cui" name="cui" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                <input type="date" [(ngModel)]="fecha_nacimiento" id="fecha_nacimiento" name="fecha_nacimiento" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label for="rol">Rol</label>
+                <select [(ngModel)]="rol" name="rol" id="rol" class="form-input" required>
+                    <option value="2">Cliente</option>
+                    <option value="3">Freelancer</option>
+                </select>
+            </div>
+
+
+            <button (click)="registrar()" class="login-button">Registrarse</button>
+            <a href="/login">O inicia sesion</a>
+        </form>
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </div>
+</div>

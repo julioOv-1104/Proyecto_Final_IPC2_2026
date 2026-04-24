@@ -1,0 +1,39 @@
+<div class="crear-paquetes-page">
+    <h1>Completa la informacion de clientes antes de empezar a usar la aplicacion</h1>
+    <section class="form-card">
+
+
+
+        <header class="form-header">
+            <p>Completa los datos y continua</p>
+        </header>
+
+        <form  class="paquete-form">
+             <div class="field-full">
+                <label for="descripcion">Descripción breve de su empresa o perfil</label>
+                <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="sector">Sector o industria a la que pertenece</label>
+                    <input [(ngModel)]="sector" type="text" name="sector" id="sector" required>
+                </div>
+
+                <div class="field">
+                    <label for="sitio_web">Sitio Web (opcional)</label>
+                    <input [(ngModel)]="sitio_web" type="text" name="sitio_web" id="sitio_web">
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button (click)="registrarInfo()" type="submit" class="btn-submit">Registrar informacion</button>
+            </div>
+
+        </form>
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>

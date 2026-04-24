@@ -35,3 +35,4 @@ temp/
 # OS
 .DS_Store
 Thumbs.db
+/Proyecto_Final_IPC2_Backend/target/
