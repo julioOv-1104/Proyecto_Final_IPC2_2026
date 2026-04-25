@@ -46,6 +46,18 @@ public class Usuario {
         this.estado = estado;
         this.saldo = saldo;
     }
+
+    public Usuario(String nombre_completo, String username, String correo, String telefono, String direccion, String cui, Date fecha_nacimiento, Boolean estado) {
+        this.nombre_completo = nombre_completo;
+        this.username = username;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.cui = cui;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.estado = estado;
+    }
+    
     
     
 

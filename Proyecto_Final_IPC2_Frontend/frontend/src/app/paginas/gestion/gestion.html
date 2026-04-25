@@ -1,0 +1,107 @@
+<div class="crear-paquetes-page">
+    <h1>Gestion de Usuarios</h1>
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Clientes</h2>
+            <p>Clientes existentes en el sistema.</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Nombre de usuarios</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>CUI</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Activo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of clientes">
+                        <td>{{ c.nombre_completo }}</td>
+                        <td>{{ c.username }}</td>
+                        <td>{{ c.correo }}</td>
+                        <td>{{ c.telefono }}</td>
+                        <td>{{ c.direccion }}</td>
+                        <td>{{ c.cui }}</td>
+                        <td>{{ c.fecha_nacimiento }}</td>
+                        <td><button (click)="desactivarActivarUsuario(c.username)" class="btn-submit">{{ c.estado }}</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Freelancers</h2>
+            <p>Freelancers existentes en el sistema.</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Nombre de usuarios</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>CUI</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Activo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of freelancers">
+                        <td>{{ c.nombre_completo }}</td>
+                        <td>{{ c.username }}</td>
+                        <td>{{ c.correo }}</td>
+                        <td>{{ c.telefono }}</td>
+                        <td>{{ c.direccion }}</td>
+                        <td>{{ c.cui }}</td>
+                        <td>{{ c.fecha_nacimiento }}</td>
+                        <td><button (click)="desactivarActivarUsuario(c.username)" class="btn-submit">{{ c.estado }}</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="form-card">
+
+
+
+        <header class="form-header">
+            <h1>Cambiar comision del sistema</h1>
+            <p>Comision actual: {{comision_actual}}</p>
+        </header>
+
+        <form  class="paquete-form">
+
+                <div class="field">
+                    <label for="nueva_comision">Nueva Comision (porcentaje)</label>
+                    <input [(ngModel)]="nueva_comision" type="number" name="nueva_comision" id="nueva_comision" required>
+                </div>
+
+            <div class="actions">
+                <button (click)="cambiarComision()" class="btn-submit">Registrar Paquete</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>
+
+<app-menu-admin></app-menu-admin>

@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAOs.*;
+import Modelos.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 @WebServlet(name = "ClienteServlet", urlPatterns = {"/ClienteServlet"})
@@ -21,6 +23,19 @@ public class ClienteServlet extends HttpServlet {
 
         ObjectMapper om = new ObjectMapper();
         response.setContentType("application/json; charset=UTF-8");
+        
+
+        ArrayList<Usuario> clientes = clienteDao.obtenerClientes();
+
+        if (clientes.isEmpty()) {
+            //no hay clientes
+            response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No hay clientes\"}");
+
+        } else {
+
+            String json = om.writeValueAsString(clientes);
+            response.getWriter().print(json);
+        }
 
     }
 

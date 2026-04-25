@@ -1,6 +1,6 @@
 export interface UsuarioModel {
 
-    id_usuar1o: number
+    id_usuario: number
     nombre_completo: string
     username: string
     password: string

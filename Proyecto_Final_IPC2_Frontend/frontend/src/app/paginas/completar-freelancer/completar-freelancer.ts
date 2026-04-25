@@ -22,14 +22,14 @@ export class CompletarFreelancer {
     ngOnInit() {
     const id = sessionStorage.getItem('usuario_id');
     if (id) {
-      this.id_usuario = parseInt(id, 10);
+      this.id_usuario = parseInt(id);
     }
   }
 
   registrarInfo(){
 
-if (!this.biografia || !this.nivel_experiencia || !this.tarifa_hora) {
-  this.mensajeError = 'Por favor, complete todos los campos obligatorios.';
+if (!this.biografia || !this.nivel_experiencia || this.tarifa_hora <=0) {
+  this.mensajeError = 'Por favor, complete todos los campos obligatorios con valores validos';
   return;
 }
 

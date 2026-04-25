@@ -22,7 +22,7 @@ export class CompletarCliente {
   ngOnInit() {
     const id = sessionStorage.getItem('usuario_id');
     if (id) {
-      this.id_usuario = parseInt(id, 10);
+      this.id_usuario = parseInt(id);
     }
   }
 

@@ -13,14 +13,14 @@ import { UsuarioModel } from '../../modelos/usuario-model';
 })
 export class LoginForm {
 
-constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(private usuarioService: UsuarioService, private router: Router) { }
 
   mensajeError: string | null = null;
   username: string = '';
   password: string = '';
 
 
-  login(){
+  login() {
     console.log(this.username, this.password);
 
     this.mensajeError = null; // Limpiar mensaje de error
@@ -47,7 +47,7 @@ constructor(private usuarioService: UsuarioService, private router: Router) {}
         // si recibe un usuario
         const usuario = response as UsuarioModel;
 
-        
+
 
         sessionStorage.setItem('usuario', JSON.stringify(response));
         sessionStorage.setItem('usuario_id', response.id_usuario);
@@ -55,15 +55,15 @@ constructor(private usuarioService: UsuarioService, private router: Router) {}
 
         console.log('rol del usuario:', response.rol);
 
-        if(response.activo === false){
+        if (response.activo === false) {
           this.mensajeError = 'Usuario inactivo. No puede acceder.';
           return;
         }
 
         switch (response.rol) {//redirecciona segun el rol del usuario
-          case 2 : this.router.navigate(['/completar-cliente']); break;
-          case 3 : this.router.navigate(['/completar-freelancer']); break;
-          default: this.router.navigate(['']); break;
+          case 2: this.comprobarCliente(); break;
+          case 3: this.comprobarFreelancer(); break;
+          default: this.router.navigate(['/crear-admins']); break;
         }
 
       }
@@ -71,6 +71,52 @@ constructor(private usuarioService: UsuarioService, private router: Router) {}
 
 
 
+  }
+
+  comprobarCliente() {
+
+    console.log('Comprobando cliente con username:', this.username);
+
+    this.usuarioService.comprobarInfo(this.username,'clientes').subscribe({
+      next: (response: any) => {
+
+        // si recibe incompleto
+        if (response.status === 'incompleto') {
+          this.mensajeError = response.mensaje;
+          this.router.navigate(['/completar-cliente']); 
+        }
+
+        //si recibe completo
+        if (response.status === 'completo') {
+          this.mensajeError = response.mensaje;
+          this.router.navigate(['/login']); 
+        }
+  
+
+      }
+    });
+
+  }
+
+  comprobarFreelancer() { 
+    this.usuarioService.comprobarInfo(this.username,'freelancers').subscribe({
+      next: (response: any) => {
+
+        // si recibe incompleto
+        if (response.status === 'incompleto') {
+          this.mensajeError = response.mensaje;
+          this.router.navigate(['/completar-freelancer']); 
+        }
+
+        //si recibe completo
+        if (response.status === 'completo') {
+          this.mensajeError = response.mensaje;
+          this.router.navigate(['/login']); 
+        }
+  
+
+      }
+    });
   }
 
 }

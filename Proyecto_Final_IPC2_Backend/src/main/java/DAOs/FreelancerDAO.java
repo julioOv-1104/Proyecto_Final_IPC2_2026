@@ -1,10 +1,13 @@
 
 package DAOs;
 
+import Modelos.Usuario;
 import Utilidades.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FreelancerDAO {
     
@@ -34,6 +37,34 @@ public class FreelancerDAO {
         }
 
         return false;
+    }
+    
+    
+    public ArrayList<Usuario> obtenerFreelancers() {
+
+        ArrayList<Usuario> freelancers = new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT * FROM usuarios WHERE rol = 3";//selecciona solo a los freelancers
+            PreparedStatement stm = conn.prepareStatement(sql);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+
+                Usuario nuevo = new Usuario(rs.getString("nombre_completo"), rs.getString("username"),
+                        rs.getString("correo"), rs.getString("telefono"), rs.getString("direccion"),
+                        rs.getString("cui"), rs.getDate("fecha_nacimiento"), rs.getBoolean("estado"));
+
+                freelancers.add(nuevo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER FREELANCERS DESDE DAO" + e.getMessage());
+        }
+
+        return freelancers;
     }
     
 }
