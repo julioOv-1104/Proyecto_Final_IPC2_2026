@@ -1,0 +1,31 @@
+<div class="crear-paquetes-page">
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Crear Categorias</h1>
+        </header>
+
+        <form  class="paquete-form">
+
+                <div class="field">
+                    <label for="nombre">Nombre de categoria</label>
+                    <input [(ngModel)]="nombre" type="text" name="nombre" id="nombre" required>
+                </div>
+
+                <div class="field-full">
+                <label for="descripcion">Descripción</label>
+                <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="actions">
+                <button (click)="crearCategoria()" class="btn-submit">Crear</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>
+
+<app-menu-admin></app-menu-admin>

@@ -11,12 +11,12 @@ export class FreelancerService {
 
   Url = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet';
 
-  registrarInfo(id_usuario: number, descripcion: string, experiencia: string, tarifa: number) {
+  registrarInfo(id_usuario: number, biografia: string, nivel_experiencia: string, tarifa_hora: number) {
     return this.http.post(this.Url, {
       id_usuario,
-      descripcion,
-      experiencia,
-      tarifa
+      biografia,
+      nivel_experiencia,
+      tarifa_hora
     });
   }
   

@@ -1,0 +1,65 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Solicitudes</h2>  
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <p>Solicitudes de Categorias pendientes.</p>
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Cliente</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Fecha de solicitud</th>
+                        <th>Aceptar</th>
+                        <th>Rechazar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of solicitudesCategorias">
+                        <td>{{ c.id_usuario }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td>{{ c.fecha }}</td>
+                        <td><button (click)="aceptarCategoria(c.id_solicitud,c.nombre, c.descripcion)" class="btn-submit">aceptar</button></td>
+                        <td><button (click)="rechazarCategoria(c.id_solicitud,c.nombre, c.descripcion)" class="btn-submit">rechazar</button></td>
+                    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="destinos-table-wrapper">
+            <p>Solicitudes de Habilidades pendientes.</p>
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Freelancer</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Fecha de solicitud</th>
+                        <th>Aceptar</th>
+                        <th>Rechazar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of solicitudesHabilidades">
+                        <td>{{ c.id_usuario }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td>{{ c.fecha }}</td>
+                        <td><button (click)="aceptarHabilidad(c.id_solicitud,c.nombre, c.descripcion)" class="btn-submit">aceptar</button></td>
+                        <td><button (click)="rechazarHabilidad(c.id_solicitud,c.nombre, c.descripcion)" class="btn-submit">rechazar</button></td>
+                    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+<app-menu-admin></app-menu-admin>

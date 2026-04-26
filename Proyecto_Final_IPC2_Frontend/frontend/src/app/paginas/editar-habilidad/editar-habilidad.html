@@ -1,0 +1,98 @@
+<div class="crear-paquetes-page">
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Habilidades y Categorias</h2>
+            <p>Habilidades y Categorias disponibles en el sistema.</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID habilidad</th>
+                        <th>ID categoria</th>
+                        <th>Nombre Habilidad</th>
+                        <th>Descripcion Habilidad</th>
+                        <th>Habilidad Activa</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of habilidades">
+                        <td>{{ c.id_habilidad }}</td>
+                        <td>{{ c.id_categoria }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td><button (click)="desactivarActivarHabilidad(c.id_categoria)" class="btn-submit">{{ c.estado}}</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID categoria</th>
+                        <th>Nombre Categoria</th>
+                        <th>Descripcion Categoria</th>
+                        <th>Categoria Activa</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of categorias">
+                        <td>{{ c.id_categoria }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                         <td>{{c.estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Editar Habilidades</h1>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_habilidad">ID de Habilidad</label>
+                <input [(ngModel)]="id_habilidad" type="number" name="id_habilidad" id="id_habilidad" required>
+            </div>
+
+            <div class="field">
+                <label for="id_categoria">ID de Categoria</label>
+                <input [(ngModel)]="id_categoria" type="number" name="id_categoria" id="id_categoria" required>
+            </div>
+
+            <div class="field">
+                <label for="nombre">Nombre de habilidad</label>
+                <input [(ngModel)]="nombre" type="text" name="nombre" id="nombre" required>
+            </div>
+
+            <div class="field-full">
+                <label for="descripcion">Descripción</label>
+                <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="actions">
+                <button (click)="editarHabilidad()" class="btn-submit">Guardar Cambios</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>
+
+<app-menu-admin></app-menu-admin>

@@ -90,6 +90,7 @@ export class Gestion {
 
         console.log('Cambio de comision con exito');
         this.mensajeError = response.mensaje;
+        this.obtenerComisionActual();
         return;
 
       }
@@ -97,7 +98,7 @@ export class Gestion {
 
     });
 
-    this.obtenerComisionActual();
+    
 
   }
 

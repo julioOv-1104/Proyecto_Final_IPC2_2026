@@ -51,7 +51,7 @@ public class FreelancerServlet extends HttpServlet {
         int id_usuario = ((Number) datos.get("id_usuario")).intValue();
         String biografia = ((String) datos.get("biografia"));
         String nivel_experiencia = ((String) datos.get("nivel_experiencia"));
-        double tarifa_hora = ((Number) datos.get("sitio_web")).doubleValue();   
+        double tarifa_hora = Double.parseDouble(datos.get("tarifa_hora").toString());   
 
         if (!freelancerDao.registrarInformacionInicial(id_usuario, biografia, nivel_experiencia, tarifa_hora)) {
 
