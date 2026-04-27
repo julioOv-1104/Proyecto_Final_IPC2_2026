@@ -1,0 +1,28 @@
+<div class="reporte-ventas-wrapper">
+  <section class="reporte-ventas-card">
+    <header class="reporte-ventas-header">
+      <h2>Historial de porcentajes de comision</h2>
+    </header>
+
+    <div class="reporte-ventas-scroll">
+      <table class="reporte-ventas-table">
+        <thead>
+          <tr>
+            <th>Porcentaje</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha fin</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let h of historial">
+            <td>{{ h.porcentaje }}%</td>
+            <td>{{ h.fecha_inicio }}</td>
+            <td>{{ h.fecha_fin }}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

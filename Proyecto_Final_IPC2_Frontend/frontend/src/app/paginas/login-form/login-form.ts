@@ -55,7 +55,7 @@ export class LoginForm {
 
         console.log('rol del usuario:', response.rol);
 
-        if (response.activo === false) {
+        if (response.estado === false) {
           this.mensajeError = 'Usuario inactivo. No puede acceder.';
           return;
         }

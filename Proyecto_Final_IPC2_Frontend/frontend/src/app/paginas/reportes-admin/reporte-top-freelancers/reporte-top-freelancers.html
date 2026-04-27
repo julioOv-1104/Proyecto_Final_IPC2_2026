@@ -1,0 +1,32 @@
+<div class="reporte-ventas-wrapper">
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Top 5 Freelancers con mas ingresos</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Contratos completados</th>
+                        <th>Ganancia Freelancer</th>
+                        <th>Comision obtenida</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let f of freelancers">
+                        <td>{{ f.nombre_freelancer }}%</td>
+                        <td>{{ f.cantidad_contratos }}</td>
+                        <td>{{ f.total_freelancer }}</td>
+                        <td>{{ f.total_comision }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,30 @@
+<div class="reporte-ventas-wrapper">
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Top 5 Categorias con mas actividad</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>Nombre Categoria</th>
+                        <th>Cantidad Contratos</th>
+                        <th>Comisiones Generadas</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let f of categorias">
+                        <td>{{ f.nombre_categoria }}%</td>
+                        <td>{{ f.cantidad_contratos }}</td>
+                        <td>{{ f.total_comisiones }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

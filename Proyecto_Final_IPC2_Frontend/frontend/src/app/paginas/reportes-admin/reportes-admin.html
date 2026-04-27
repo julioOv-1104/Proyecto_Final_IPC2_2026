@@ -1,0 +1,53 @@
+<div class="formulario-reportes">
+    <h1>Reportes de Administrador</h1>
+    <h2>Ingresar las fechas a buscar</h2>
+
+    <form>
+        <div class="campos-fechas">
+            <div class="campo">
+                <label for="fechaInicio">Fecha de inicio:</label>
+                <input [(ngModel)]="fechaInicio" type="date" id="fechaInicio" name="fechaInicio" required>
+            </div>
+
+            <div class="campo">
+                <label for="fechaFin">Fecha de fin:</label>
+                <input [(ngModel)]="fechaFin" type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+        </div>
+
+        <div class="botones">
+            <button (click)="mostrarReporte('porcentajes')" type="button" class="btn-ventas">Historial de porcentaje de comision</button>
+            <button (click)="mostrarReporte('topFreelancers')" type="button" class="btn-cancelaciones">Top 5 freelancer con mas ingresos</button>
+            <button (click)="mostrarReporte('topCategorias')" type="button" class="btn-ventas">Top 5 categorias con mas actividad</button>
+            <button (click)="mostrarReporte('totalIngresos')" type="button" class="btn-cancelaciones">Total de ingresos de la plataforma</button>
+        </div>
+        <br>
+
+    </form>
+</div>
+
+<app-reporte-historial-porcentaje
+    *ngIf="tipoReporte === 'porcentajes'"
+    [fechaInicio]="fechaInicio"
+    [fechaFin]="fechaFin">
+</app-reporte-historial-porcentaje>
+
+<app-reporte-top-freelancers
+    *ngIf="tipoReporte === 'topFreelancers'"
+    [fechaInicio]="fechaInicio"
+    [fechaFin]="fechaFin">
+</app-reporte-top-freelancers>
+
+<app-reporte-top-categorias
+    *ngIf="tipoReporte === 'topCategorias'"
+    [fechaInicio]="fechaInicio"
+    [fechaFin]="fechaFin">
+</app-reporte-top-categorias>
+
+<app-reporte-total-ingresos
+    *ngIf="tipoReporte === 'totalIngresos'"
+    [fechaInicio]="fechaInicio"
+    [fechaFin]="fechaFin">
+</app-reporte-total-ingresos>
+
+<app-menu-admin></app-menu-admin>

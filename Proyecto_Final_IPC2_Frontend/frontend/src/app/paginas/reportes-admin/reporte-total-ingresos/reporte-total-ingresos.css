@@ -1,0 +1,85 @@
+.reporte-ventas-wrapper {
+  padding: 1rem;
+  color: #222;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reporte-ventas-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e4e7eb;
+  overflow: hidden;
+}
+
+.reporte-ventas-header {
+  background: linear-gradient(90deg, #1ec27e, #0066cc);
+  color: white;
+  padding: 1rem;
+}
+
+.reporte-ventas-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.reporte-ventas-header p {
+  margin: 0.4rem 0 0;
+  font-size: 0.92rem;
+  opacity: 0.9;
+}
+
+.reporte-ventas-scroll {
+  overflow-x: auto;
+}
+
+.reporte-ventas-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.reporte-ventas-table th,
+.reporte-ventas-table td {
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.reporte-ventas-table th {
+  background: #f3f6fb;
+  color: #33475b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+}
+
+.reporte-ventas-table tbody tr:nth-child(odd) {
+  background: #fff;
+}
+
+.reporte-ventas-table tbody tr:nth-child(even) {
+  background: #f8fbff;
+}
+
+.reporte-ventas-table tbody tr:hover {
+  background: #dcefff;
+}
+
+.reporte-ventas-table td:last-child,
+.reporte-ventas-table th:last-child {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .reporte-ventas-header h2 {
+    font-size: 1.1rem;
+  }
+  .reporte-ventas-table th,
+  .reporte-ventas-table td {
+    padding: 0.6rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}

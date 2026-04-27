@@ -10,6 +10,7 @@ import { CrearHabilidad } from './paginas/crear-habilidad/crear-habilidad';
 import { EditarCategoria } from './paginas/editar-categoria/editar-categoria';
 import { EditarHabilidad } from './paginas/editar-habilidad/editar-habilidad';
 import { VerSolicitudes } from './paginas/ver-solicitudes/ver-solicitudes';
+import { ReportesAdmin } from './paginas/reportes-admin/reportes-admin';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'registrarse', pathMatch: 'full'},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     {path: 'editar-categoria', component: EditarCategoria},
     {path: 'editar-habilidad', component: EditarHabilidad},
     {path: 'ver-solicitudes', component: VerSolicitudes},
+    {path: 'reportes-admin', component: ReportesAdmin},
     {path: 'crear-admins', component: CrearAdmins}
 ];

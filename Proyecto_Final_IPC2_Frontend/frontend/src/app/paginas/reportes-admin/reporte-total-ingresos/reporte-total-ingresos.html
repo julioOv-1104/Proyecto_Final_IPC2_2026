@@ -1,0 +1,29 @@
+<div class="reporte-ventas-wrapper">
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Total de ingresos de la plataforma</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>Cantidad de contratos</th>
+                        <th>Total comisiones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngIf="ingresos">
+                        <td>{{ ingresos.cantidad_contratos }}</td>
+                        <td>{{ ingresos.total_comisiones }}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
