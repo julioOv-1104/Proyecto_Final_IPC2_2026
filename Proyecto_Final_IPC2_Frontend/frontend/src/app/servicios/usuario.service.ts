@@ -17,6 +17,9 @@ export class UsuarioService {
   estadoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=estado';
   obtenerClientesUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet';
   obtenerFreelancersUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet';
+  obtenerSaldoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=obtenerSaldo';
+
+
 
   registrar(usuario: Partial<UsuarioModel>): Observable<UsuarioModel> {
     return this.http.put<UsuarioModel>(this.Url, usuario);
@@ -44,6 +47,10 @@ export class UsuarioService {
 
   activarDesactivar(username: string) {
     return this.http.post(this.estadoUrl, { username });
+  }
+
+  obtenerSaldo(id_usuario: number):  Observable<number> {
+    return this.http.post<number>(this.obtenerSaldoUrl, {id_usuario});
   }
 
 

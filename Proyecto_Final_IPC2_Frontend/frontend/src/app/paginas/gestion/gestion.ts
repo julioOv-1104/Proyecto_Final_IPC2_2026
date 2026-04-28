@@ -72,6 +72,13 @@ export class Gestion {
 
   }
 
+  confirmar() {
+  const ok = confirm('¿Estás seguro de que quieres cambiar el porcentaje de comision?');
+  if (ok) {
+    this.cambiarComision();
+  }
+}
+
   cambiarComision() {
 
     if (this.nueva_comision <= 0 || this.nueva_comision > 100) {

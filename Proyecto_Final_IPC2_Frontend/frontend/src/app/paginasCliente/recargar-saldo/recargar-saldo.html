@@ -1,0 +1,28 @@
+<div class="crear-paquetes-page">
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Recargar Saldo</h1>
+            <p>Saldo actual Q{{saldo}}</p>
+        </header>
+
+        <form  class="paquete-form">
+
+                <div class="field">
+                    <label for="monto">Monto a acreditar</label>
+                    <input [(ngModel)]="monto" type="number" name="monto" id="monto" required>
+                </div>
+
+
+            <div class="actions">
+                <button (click)="recargar()" class="btn-submit">Recargar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>
+
+<app-menu-cliente></app-menu-cliente>

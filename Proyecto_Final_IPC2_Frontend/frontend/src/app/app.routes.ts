@@ -11,19 +11,23 @@ import { EditarCategoria } from './paginas/editar-categoria/editar-categoria';
 import { EditarHabilidad } from './paginas/editar-habilidad/editar-habilidad';
 import { VerSolicitudes } from './paginas/ver-solicitudes/ver-solicitudes';
 import { ReportesAdmin } from './paginas/reportes-admin/reportes-admin';
+import { RecargarSaldo } from './paginasCliente/recargar-saldo/recargar-saldo';
+import { SolicitarCategoria } from './paginasCliente/solicitar-categoria/solicitar-categoria';
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'registrarse', pathMatch: 'full'},
-    {path: 'registrarse', component: Registrarse},
-    {path: 'login', component: LoginForm},
-    {path: 'completar-cliente', component: CompletarCliente},
-    {path: 'completar-freelancer', component: CompletarFreelancer},
-    {path: 'gestion', component: Gestion},
-    {path: 'crear-categoria', component: CrearCategoria},
-    {path: 'crear-habilidad', component: CrearHabilidad},
-    {path: 'editar-categoria', component: EditarCategoria},
-    {path: 'editar-habilidad', component: EditarHabilidad},
-    {path: 'ver-solicitudes', component: VerSolicitudes},
-    {path: 'reportes-admin', component: ReportesAdmin},
-    {path: 'crear-admins', component: CrearAdmins}
+    { path: '', redirectTo: 'registrarse', pathMatch: 'full' },
+    { path: 'registrarse', component: Registrarse },
+    { path: 'login', component: LoginForm },
+    { path: 'completar-cliente', component: CompletarCliente },
+    { path: 'completar-freelancer', component: CompletarFreelancer },
+    { path: 'gestion', component: Gestion },
+    { path: 'crear-categoria', component: CrearCategoria },
+    { path: 'crear-habilidad', component: CrearHabilidad },
+    { path: 'editar-categoria', component: EditarCategoria },
+    { path: 'editar-habilidad', component: EditarHabilidad },
+    { path: 'ver-solicitudes', component: VerSolicitudes },
+    { path: 'reportes-admin', component: ReportesAdmin },
+    { path: 'recargar-saldo', component: RecargarSaldo },
+    { path: 'solicitar-categoria', component: SolicitarCategoria },
+    { path: 'crear-admins', component: CrearAdmins }
 ];

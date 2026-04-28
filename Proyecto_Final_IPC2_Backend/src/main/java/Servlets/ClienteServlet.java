@@ -23,7 +23,6 @@ public class ClienteServlet extends HttpServlet {
 
         ObjectMapper om = new ObjectMapper();
         response.setContentType("application/json; charset=UTF-8");
-        
 
         ArrayList<Usuario> clientes = clienteDao.obtenerClientes();
 
@@ -43,24 +42,138 @@ public class ClienteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper om = new ObjectMapper();
 
         response.setContentType("application/json; charset=UTF-8");
 
-        Map<String, Object> datos = objectMapper.readValue(request.getInputStream(), Map.class);
+        //Accion define si se está creando editado cleinte o si se va a editar
+        String accionRecibida = request.getParameter("accion");
 
-        int id_usuario = ((Number) datos.get("id_usuario")).intValue();
-        String descripcion = ((String) datos.get("descripcion"));
-        String sector = ((String) datos.get("sector"));
-        String sitio_web = ((String) datos.get("sitio_web"));   
+        if (accionRecibida == null) {
+            response.getWriter().print("{\"error\": \"Acción no especificada\"}");
+            return;
+        }
 
-        if (!clienteDao.registrarInformacionInicial(id_usuario, descripcion, sector, sitio_web)) {
+        try {
+            switch (accionRecibida) {
+                case "completar":
+                    completarInformacion(request, response, om);
+                    break;
+                case "solicitar":
+                    solicitarCategoria(request, response, om);
+                    break;
 
-            response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No se pudo ingresar la informacion, intentelo de nuevo\"}");
+                default:
 
-        } else {
-            response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"informacion registrada, iniciando sesion\"}");
+                    response.getWriter().print("{\"error\": \"Acción no válida\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
+        }
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ObjectMapper om = new ObjectMapper();
+        response.setContentType("application/json; charset=UTF-8");
+
+        //Accion define si se está creando editado cleinte o si se va a editar
+        String accionRecibida = request.getParameter("accion");
+
+        if (accionRecibida == null) {
+            response.getWriter().print("{\"error\": \"Acción no especificada\"}");
+            return;
+        }
+
+        try {
+            switch (accionRecibida) {
+                case "recargar":
+                    recargarSaldo(request, response, om);
+                    break;
+
+                default:
+
+                    response.getWriter().print("{\"error\": \"Acción no válida\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+    private void recargarSaldo(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            double recarga = ((Number) datos.get("recarga")).doubleValue();
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+
+            if (!clienteDao.recargarSaldo(id_usuario, recarga)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al recargar saldo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Saldo cargado con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void completarInformacion(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+            String descripcion = ((String) datos.get("descripcion"));
+            String sector = ((String) datos.get("sector"));
+            String sitio_web = ((String) datos.get("sitio_web"));
+
+            if (!clienteDao.registrarInformacionInicial(id_usuario, descripcion, sector, sitio_web)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No se pudo ingresar la informacion, intentelo de nuevo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"informacion registrada, iniciando sesion\"}");
+
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void solicitarCategoria(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+        
+         try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+            String descripcion = ((String) datos.get("descripcion"));
+            String nombre = ((String) datos.get("nombre"));
+
+            if (!clienteDao.registrarSolicitudCategoria(id_usuario, descripcion, nombre)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No se pudo registrar la solicitud, intentelo de nuevo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Solicitud registrada con exito\"}");
+
+            }
+
+        } catch (Exception e) {
         }
     }
 

@@ -146,4 +146,25 @@ public class UsuarioDAO {
         return false;
     }
     
+     public double obtenerSaldo(int id_usuario) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT saldo FROM usuarios WHERE id_usuario = ?";//selecciona solo a los clientes
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_usuario);
+
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("saldo");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER SALDO DE USUARIOS DESDE DAO" + e.getMessage());
+        }
+
+        return -1;
+    }
+    
 }

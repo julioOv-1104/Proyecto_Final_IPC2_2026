@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FreelancerDAO {
+public class FreelancerDAO extends Usuario{
     
     ConexionDB conexion = new ConexionDB();
     

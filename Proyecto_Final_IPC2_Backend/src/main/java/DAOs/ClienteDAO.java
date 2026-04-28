@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ClienteDAO {
+public class ClienteDAO extends Usuario {
 
     ConexionDB conexion = new ConexionDB();
 
@@ -66,6 +66,51 @@ public class ClienteDAO {
         }
 
         return clientes;
+    }
+
+    public boolean recargarSaldo(int id_usuario, double recarga) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE usuarios SET saldo = saldo + ? WHERE id_usuario = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setDouble(1, recarga);
+            stm.setInt(2, id_usuario);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL RECARGAR SALDO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean registrarSolicitudCategoria(int id_usuario, String descripcion, String nombre) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "INSERT INTO solicitud_categoria (id_cliente, nombre, descripcion) SELECT id_cliente, "
+                    + "?, ? FROM clientes WHERE id_usuario = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, nombre);
+            stm.setString(2, descripcion);
+            stm.setInt(3, id_usuario);//a partir del id_usuario encuentra el id_cliente
+            
+            System.out.println("SQL: "+stm);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL REGISTRAR SOLICITUD DE CATEGORIA DESDE DAO " + e.getMessage());
+        }
+
+        return false;
     }
 
 }

@@ -89,7 +89,7 @@ export class LoginForm {
         //si recibe completo
         if (response.status === 'completo') {
           this.mensajeError = response.mensaje;
-          this.router.navigate(['/login']); 
+          this.router.navigate(['/recargar-saldo']); 
         }
   
 

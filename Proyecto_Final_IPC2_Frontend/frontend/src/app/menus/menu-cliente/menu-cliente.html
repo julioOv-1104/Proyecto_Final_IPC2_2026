@@ -1,0 +1,10 @@
+<div class="menu-container" [class.open]="isOpen">
+    <button class="close-btn" (click)="toggleMenu()">X</button>
+    <h2>Cliente</h2>
+    <ul>
+        <li routerLink="/recargar-saldo">Recargar Saldo</li>
+        <li routerLink="/solicitar-categoria">Solicitar Categoria</li>
+        <li (click)="logout()">Cerrar Sesión</li>
+    </ul>
+</div>
+<button class="open-btn" (click)="toggleMenu()">Opciones</button>

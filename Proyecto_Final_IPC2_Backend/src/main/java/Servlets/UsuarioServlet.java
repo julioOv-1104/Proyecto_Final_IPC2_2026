@@ -57,6 +57,9 @@ public class UsuarioServlet extends HttpServlet {
                 case "estado":
                     activarDesactivar(request, response, om);
                     break;
+                case "obtenerSaldo":
+                    obtenerSaldo(request, response, om);
+                    break;
 
                 default:
 
@@ -160,8 +163,8 @@ public class UsuarioServlet extends HttpServlet {
     }
 
     private void activarDesactivar(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-       
-         try {
+
+        try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
 
@@ -178,6 +181,32 @@ public class UsuarioServlet extends HttpServlet {
 
         } catch (Exception e) {
         }
+    }
+
+    private void obtenerSaldo(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+        
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+            
+            double saldo = usuarioDao.obtenerSaldo(id_usuario);
+
+            if (saldo < 0) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al obtener saldo\"}");
+
+            } else {
+                
+                String json = om.writeValueAsString(saldo);
+                response.getWriter().print(json);
+
+            }
+
+        } catch (Exception e) {
+        }
+        
     }
 
 }
