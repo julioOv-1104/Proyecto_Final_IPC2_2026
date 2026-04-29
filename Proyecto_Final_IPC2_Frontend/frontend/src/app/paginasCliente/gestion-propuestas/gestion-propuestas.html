@@ -1,0 +1,74 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Proyectos</h2>
+            <p>Mis proyectos</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Proyecto</th>
+                        <th>ID categorias</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Presupuesto Maximo</th>
+                        <th>Fecha Limite</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of proyectos">
+                        <td>{{ p.id_proyecto }}</td>
+                        <td>{{ p.id_categoria }}</td>
+                        <td>{{ p.titulo }}</td>
+                        <td>{{ p.descripcion }}</td>
+                        <td>Q{{p.presupuesto_max}}</td>
+                        <td>{{p.fecha_limite}}</td>
+                        <td>{{p.estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Prpuestas de Proyecto</h1>
+            <p>Buscar las propuestas de cada proyecto</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_proyecto">ID de Proyecto</label>
+                <input [(ngModel)]="id_proyecto" type="number" name="id_proyecto" id="id_proyecto" required>
+            </div>
+
+            <div class="actions">
+                <button (click)="consultarPropuestas()" class="btn-submit">Consultar</button>
+            </div>
+
+            <div class="actions">
+                <button (click)="ocultar()" class="btn-submit">Ocultar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+
+
+</div>
+
+<app-propuestas
+    *ngIf="activo"
+    [id_proyecto]="id_proyecto">
+</app-propuestas>
+
+<app-menu-cliente></app-menu-cliente>

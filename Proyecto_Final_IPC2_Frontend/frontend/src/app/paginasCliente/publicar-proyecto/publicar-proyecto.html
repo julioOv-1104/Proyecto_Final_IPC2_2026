@@ -1,0 +1,80 @@
+<div class="crear-paquetes-page">
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Categorias</h2>
+            <p>Categorias disponibles en el sistema.</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID categorias</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Activa</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of categorias">
+                        <td>{{ c.id_categoria }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td>{{c.estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Publicar Proyecto</h1>
+            <p>Crear un proyecto nuevo</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_categoria">ID de categoria</label>
+                <input [(ngModel)]="id_categoria" type="number" name="id_categoria" id="id_categoria" required>
+            </div>
+
+            <div class="field">
+                <label for="titulo">Titulo</label>
+                <input [(ngModel)]="titulo" type="text" name="titulo" id="titulo" required>
+            </div>
+
+            <div class="field-full">
+                <label for="descripcion">Descripción</label>
+                <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="presupuesto_max">Presupuesto Maximo</label>
+                <input [(ngModel)]="presupuesto_max" type="number" name="presupuesto_max" id="presupuesto_max" required>
+            </div>
+
+            <div class="field">
+                <label for="fecha_limite">Fecha Limite</label>
+                <input [(ngModel)]="fecha_limite" type="date" name="fecha_limite" id="fecha_limite" required>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="publicar()" class="btn-submit">Publicar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+</div>
+
+<app-menu-cliente></app-menu-cliente>

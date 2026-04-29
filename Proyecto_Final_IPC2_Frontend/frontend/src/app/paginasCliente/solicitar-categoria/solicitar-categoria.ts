@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MenuCliente } from '../../menus/menu-cliente/menu-cliente';
 import { ClienteService } from '../../servicios/cliente.service';
 
+
 @Component({
   selector: 'app-solicitar-categoria',
   imports: [FormsModule, CommonModule, MenuCliente],
@@ -18,6 +19,8 @@ export class SolicitarCategoria {
   descripcion: string = '';
   nombre: string = '';
   id_usuario: number = 0;
+
+  
 
    ngOnInit() {
     const id = sessionStorage.getItem('usuario_id');

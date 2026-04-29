@@ -3,6 +3,7 @@ package DAOs;
 import Modelos.*;
 import Utilidades.ConexionDB;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -88,6 +89,36 @@ public class ClienteDAO extends Usuario {
         return false;
     }
 
+    public ArrayList<Proyecto> obtenerProyectosSinContrato(int id_usuario) {
+
+        ArrayList<Proyecto> proyectos = new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT * FROM proyectos WHERE id_cliente = (SELECT id_cliente FROM clientes "
+                    + "WHERE id_usuario = ?) AND estado IN ('ABIERTO', 'EN_REVISION');";
+            //obtiene solo los proyectos del usuario que no tengan contrato
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_usuario);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+
+                Proyecto nuevo = new Proyecto(rs.getInt("id_proyecto"), rs.getInt("id_cliente"), 
+                        rs.getInt("id_categoria"), rs.getString("titulo"), rs.getString("descripcion"), 
+                        rs.getDouble("presupuesto_max"), rs.getDate("fecha_limite"), rs.getString("estado"));
+
+                proyectos.add(nuevo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER PROYECTOS SIN CONTRATO DESDE DAO" + e.getMessage());
+        }
+
+        return proyectos;
+    }
+
     public boolean registrarSolicitudCategoria(int id_usuario, String descripcion, String nombre) {
 
         try (Connection conn = conexion.conectar()) {
@@ -99,8 +130,8 @@ public class ClienteDAO extends Usuario {
             stm.setString(1, nombre);
             stm.setString(2, descripcion);
             stm.setInt(3, id_usuario);//a partir del id_usuario encuentra el id_cliente
-            
-            System.out.println("SQL: "+stm);
+
+            System.out.println("SQL: " + stm);
 
             stm.executeUpdate();
 
@@ -111,6 +142,136 @@ public class ClienteDAO extends Usuario {
         }
 
         return false;
+    }
+
+    public boolean publicarProyecto(int id_usuario, int id_categoria, String titulo, String descripcion,
+            double presupuesto, Date fecha_limite) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "INSERT INTO proyectos (id_cliente,  id_categoria, titulo, descripcion, presupuesto_max,"
+                    + "fecha_limite) SELECT id_cliente, "
+                    + "?, ?, ?, ?, ? FROM clientes WHERE id_usuario = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_categoria);
+            stm.setString(2, titulo);
+            stm.setString(3, descripcion);
+            stm.setDouble(4, presupuesto);
+            stm.setDate(5, fecha_limite);
+            stm.setInt(6, id_usuario);//a partir del id_usuario encuentra el id_cliente
+
+            System.out.println("SQL: " + stm);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL PUBLICAR PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean editarProyecto(int id_proyecto, int id_categoria, String titulo, String descripcion,
+            double presupuesto, Date fecha_limite) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE proyectos SET id_categoria = ?,titulo = ?, descripcion=?, presupuesto_max = ?, "
+                    + "fecha_limite = ? WHERE id_proyecto = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_categoria);
+            stm.setString(2, titulo);
+            stm.setString(3, descripcion);
+            stm.setDouble(4, presupuesto);
+            stm.setDate(5, fecha_limite);
+            stm.setInt(6, id_proyecto);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL EDITAR PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+    
+     public String consultarEstadoProyecto(int id_proyecto) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT estado FROM proyectos WHERE id_proyecto = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()) {
+                
+                return rs.getString("estado");
+            }
+
+
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER ESTADO DE PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return "";
+    }
+    
+    public boolean cancelarProyecto(int id_proyecto) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE proyectos SET estado = 'CANCELADO' WHERE id_proyecto = ?";
+            //cancela el proyecto
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL CANCELAR PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+    
+    
+    public ArrayList<Propuesta> obtenerPropuestas(int id_proyecto) {
+
+        ArrayList<Propuesta> propuestas = new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT * FROM propuestas WHERE id_proyecto = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+
+                Propuesta nuevo = new Propuesta(rs.getInt("id_propuesta"), rs.getInt("id_proyecto"), 
+                        rs.getInt("id_freelancer"), rs.getDouble("monto"), rs.getInt("plazo_dias"), 
+                        rs.getString("descripcion"), rs.getString("estado"), rs.getDate("fecha"),
+                        rs.getString("motivo_rechazo"));
+
+                propuestas.add(nuevo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER PROPUESTAS DESDE DAO" + e.getMessage());
+        }
+
+        return propuestas;
     }
 
 }

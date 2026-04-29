@@ -2,6 +2,7 @@ package Servlets;
 
 import DAOs.*;
 import Modelos.*;
+import Services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class ClienteServlet extends HttpServlet {
 
     private ClienteDAO clienteDao = new ClienteDAO();
+    private ClienteService servicio = new ClienteService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,16 +26,27 @@ public class ClienteServlet extends HttpServlet {
         ObjectMapper om = new ObjectMapper();
         response.setContentType("application/json; charset=UTF-8");
 
-        ArrayList<Usuario> clientes = clienteDao.obtenerClientes();
+        //Accion define si se está creando editado cleinte o si se va a editar
+        String accionRecibida = request.getParameter("accion");
 
-        if (clientes.isEmpty()) {
-            //no hay clientes
-            response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No hay clientes\"}");
+        if (accionRecibida == null) {
+            response.getWriter().print("{\"error\": \"Acción no especificada\"}");
+            return;
+        }
 
-        } else {
+        try {
+            switch (accionRecibida) {
+                case "proyectosSinContrato":
+                    obtenerProyectosSinContrato(request, response, om);
+                    break;
 
-            String json = om.writeValueAsString(clientes);
-            response.getWriter().print(json);
+                default:
+
+                    response.getWriter().print("{\"error\": \"Acción no válida\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
     }
@@ -61,6 +74,18 @@ public class ClienteServlet extends HttpServlet {
                     break;
                 case "solicitar":
                     solicitarCategoria(request, response, om);
+                    break;
+                case "publicar":
+                    publicarProyecto(request, response, om);
+                    break;
+                case "editar":
+                    editarProyecto(request, response, om);
+                    break;
+                case "proyectosSinContrato":
+                    obtenerProyectosSinContrato(request, response, om);
+                    break;
+                case "obtenerPropuestas":
+                    obtenerPropuestas(request, response, om);
                     break;
 
                 default:
@@ -93,6 +118,9 @@ public class ClienteServlet extends HttpServlet {
             switch (accionRecibida) {
                 case "recargar":
                     recargarSaldo(request, response, om);
+                    break;
+                case "cancelarProyecto":
+                    cancelarProyecto(request, response, om);
                     break;
 
                 default:
@@ -155,8 +183,8 @@ public class ClienteServlet extends HttpServlet {
     }
 
     private void solicitarCategoria(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-        
-         try {
+
+        try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
 
@@ -175,6 +203,135 @@ public class ClienteServlet extends HttpServlet {
 
         } catch (Exception e) {
         }
+    }
+
+    private void publicarProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+            int id_categoria = ((Number) datos.get("id_categoria")).intValue();
+            String titulo = ((String) datos.get("titulo"));
+            String descripcion = ((String) datos.get("descripcion"));
+            double presupuesto = ((Number) datos.get("presupuesto_max")).doubleValue();
+            String sFecha = (String) datos.get("fecha_limite");
+            java.sql.Date fecha_limite = java.sql.Date.valueOf(sFecha);
+
+            if (!clienteDao.publicarProyecto(id_usuario, id_categoria, titulo, descripcion, presupuesto, fecha_limite)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al publicar proyecto, intente de nuevo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Proyecto publicado con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    private void editarProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+            int id_categoria = ((Number) datos.get("id_categoria")).intValue();
+            String titulo = ((String) datos.get("titulo"));
+            String descripcion = ((String) datos.get("descripcion"));
+            double presupuesto = ((Number) datos.get("presupuesto_max")).doubleValue();
+            String sFecha = (String) datos.get("fecha_limite");
+            java.sql.Date fecha_limite = java.sql.Date.valueOf(sFecha);
+
+            if (!clienteDao.editarProyecto(id_proyecto, id_categoria, titulo, descripcion, presupuesto, fecha_limite)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al editar proyecto, intente de nuevo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Proyecto editado con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL EDITAR PROYECTO DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void obtenerProyectosSinContrato(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+
+            ArrayList<Proyecto> proyectos = clienteDao.obtenerProyectosSinContrato(id_usuario);
+
+            if (proyectos == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener los proyectos sin contrato\"}");
+
+            } else {
+                String json = om.writeValueAsString(proyectos);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER PROYECTOS SIN CONTRATO DESDE SERVLET");
+        }
+
+    }
+
+    private void cancelarProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+
+            if (!servicio.cancelarProyecto(id_proyecto)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al cancelar proyecto, intente de nuevo\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Proyecto cancelado con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL CANCELAR PROYECTO DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void obtenerPropuestas(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+
+            ArrayList<Propuesta> propuestas = clienteDao.obtenerPropuestas(id_proyecto);
+
+            if (propuestas == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener las propuestas\"}");
+
+            } else {
+                String json = om.writeValueAsString(propuestas);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER PROPUESTAS DESDE SERVLET");
+        }
+
     }
 
 }

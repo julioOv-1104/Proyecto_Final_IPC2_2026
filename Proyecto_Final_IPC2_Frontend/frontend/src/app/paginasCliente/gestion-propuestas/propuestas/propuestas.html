@@ -1,0 +1,59 @@
+<div class="reporte-ventas-wrapper">
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Total de ingresos de la plataforma</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>Cantidad de contratos</th>
+                        <th>Total comisiones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of propuestas">
+                        <td>{{ p.id_freelancer }}</td>
+                        <td>{{ p.monto }}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Rechazar Propuesta</h1>
+            <p>Rechaza una propuesta y explica la razon</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_propuesta">ID de Propuesta</label>
+                <input [(ngModel)]="id_propuesta" type="number" name="id_propuesta" id="id_propuesta" required>
+            </div>
+
+            <div class="field-full">
+                <label for="motivo">Motivo de rechazo</label>
+                <textarea [(ngModel)]="motivo" name="motivo" id="motivo" rows="3"></textarea>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="rechazar()" class="btn-submit">Rechazar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+
+
+</div>

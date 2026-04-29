@@ -1,0 +1,159 @@
+<div class="crear-paquetes-page">
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Categorias</h2>
+            <p>Categorias disponibles en el sistema.</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID categorias</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Activa</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of categorias">
+                        <td>{{ c.id_categoria }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td>{{c.estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Proyectos</h2>
+            <p>Mis proyectos sin contrato</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Proyecto</th>
+                        <th>ID categorias</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Presupuesto Maximo</th>
+                        <th>Fecha Limite</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of proyectos">
+                        <td>{{ p.id_proyecto }}</td>
+                        <td>{{ p.id_categoria }}</td>
+                        <td>{{ p.titulo }}</td>
+                        <td>{{ p.descripcion }}</td>
+                        <td>Q{{p.presupuesto_max}}</td>
+                        <td>{{p.fecha_limite}}</td>
+                        <td>{{p.estado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Editar Proyecto</h1>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_proyecto">ID de Proyecto</label>
+                <input [(ngModel)]="id_proyecto" type="number" name="id_proyecto" id="id_proyecto" required>
+            </div>
+
+            <div class="field">
+                <label for="id_categoria">ID de categoria</label>
+                <input [(ngModel)]="id_categoria" type="number" name="id_categoria" id="id_categoria" required>
+            </div>
+
+            <div class="field">
+                <label for="titulo">Titulo</label>
+                <input [(ngModel)]="titulo" type="text" name="titulo" id="titulo" required>
+            </div>
+
+            <div class="field-full">
+                <label for="descripcion">Descripción</label>
+                <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="field">
+                <label for="presupuesto_max">Presupuesto Maximo</label>
+                <input [(ngModel)]="presupuesto_max" type="number" name="presupuesto_max" id="presupuesto_max" required>
+            </div>
+
+            <div class="field">
+                <label for="fecha_limite">Fecha Limite</label>
+                <input [(ngModel)]="fecha_limite" type="date" name="fecha_limite" id="fecha_limite" required>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="editar()" class="btn-submit">Editar</button>
+            </div>
+
+            <div class="actions">
+                <button (click)="cancelar()" class="btn-submit">Cancelar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Cancelar Proyecto</h1>
+            <p>Cancela un proyecto y explica la razon</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_proyecto">ID de Proyecto</label>
+                <input [(ngModel)]="id_proyecto" type="number" name="id_proyecto" id="id_proyecto" required>
+            </div>
+
+            <div class="field-full">
+                <label for="motivo">Motivo de cancelacion</label>
+                <textarea [(ngModel)]="motivo" name="motivo" id="motivo" rows="3"></textarea>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="cancelar()" class="btn-submit">Cancelar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError2 }}
+        </div>
+    </section>
+
+
+
+</div>
+
+<app-menu-cliente></app-menu-cliente>

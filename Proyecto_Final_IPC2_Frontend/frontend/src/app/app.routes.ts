@@ -13,6 +13,9 @@ import { VerSolicitudes } from './paginas/ver-solicitudes/ver-solicitudes';
 import { ReportesAdmin } from './paginas/reportes-admin/reportes-admin';
 import { RecargarSaldo } from './paginasCliente/recargar-saldo/recargar-saldo';
 import { SolicitarCategoria } from './paginasCliente/solicitar-categoria/solicitar-categoria';
+import { PublicarProyecto } from './paginasCliente/publicar-proyecto/publicar-proyecto';
+import { EditarProyecto } from './paginasCliente/editar-proyecto/editar-proyecto';
+import { GestionPropuestas } from './paginasCliente/gestion-propuestas/gestion-propuestas';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'registrarse', pathMatch: 'full' },
@@ -29,5 +32,8 @@ export const routes: Routes = [
     { path: 'reportes-admin', component: ReportesAdmin },
     { path: 'recargar-saldo', component: RecargarSaldo },
     { path: 'solicitar-categoria', component: SolicitarCategoria },
+    {path: 'publicar-proyecto', component: PublicarProyecto},
+    {path: 'editar-proyecto', component: EditarProyecto},
+    { path: 'gestion-propuestas', component: GestionPropuestas },
     { path: 'crear-admins', component: CrearAdmins }
 ];
