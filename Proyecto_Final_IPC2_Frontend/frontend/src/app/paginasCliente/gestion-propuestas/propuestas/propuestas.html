@@ -1,22 +1,28 @@
 <div class="reporte-ventas-wrapper">
     <section class="reporte-ventas-card">
         <header class="reporte-ventas-header">
-            <h2>Total de ingresos de la plataforma</h2>
+            <h2>Propuestas enviadas para un proyecto</h2>
         </header>
 
         <div class="reporte-ventas-scroll">
             <table class="reporte-ventas-table">
                 <thead>
                     <tr>
-                        <th>Cantidad de contratos</th>
-                        <th>Total comisiones</th>
+                        <th>Nombre Freelancer</th>
+                        <th>Calificacion promedio de freelancer</th>
+                        <th>Monto Ofertado</th>
+                        <th>Plazo de entrega propuesto (dias)</th>
+                        <th>aceptar</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr *ngFor="let p of propuestas">
-                        <td>{{ p.id_freelancer }}</td>
+                        <td>{{p.nombre_freelancer}}</td>
+                        <td>{{ p.calificacion_promedio }}</td>
                         <td>{{ p.monto }}</td>
+                        <td>{{p.plazo_dias}}</td>
+                        <td><button (click)="aceptarPropuesta(p.id_propuesta)" class="btn-submit">Aceptar</button></td>
 
                     </tr>
                 </tbody>

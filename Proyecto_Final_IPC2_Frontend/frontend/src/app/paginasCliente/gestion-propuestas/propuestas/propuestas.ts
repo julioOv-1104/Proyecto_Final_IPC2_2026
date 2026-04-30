@@ -13,12 +13,13 @@ import { ClienteService } from '../../../servicios/cliente.service';
 })
 export class Propuestas {
 
-  constructor( private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService) { }
 
   propuestas: PropuestaModel[] = [];
   mensajeError: string | null = null;
   id_propuesta: number = 0;
-   @Input() id_proyecto: number =0;
+  @Input() id_usuario: number = 0;
+  @Input() id_proyecto: number = 0;
   motivo: string = '';
 
   ngOnInit() {
@@ -26,9 +27,60 @@ export class Propuestas {
     console.log('id proyecto:' + this.id_proyecto);
   }
 
-rechazar(){}
+  aceptarPropuesta(id_propuesta: number) {
 
-  obtenerPrpuestas(){
+    this.clienteService.aceptarPropuesta(id_propuesta, this.id_usuario).subscribe({
+
+      next: (response: any) => {
+
+        // si recibe un error
+        if (response.status === 'error') {
+          this.mensajeError = response.mensaje;
+          return;
+        }
+
+        console.log('Propuesta aceptada con exito');
+        this.mensajeError = response.mensaje;
+        this.obtenerPrpuestas();
+        return;
+
+      }
+
+
+
+    });
+
+
+  }
+
+  rechazar() {
+
+    this.clienteService.rechazarPropuesta(this.id_propuesta, this.motivo).subscribe({
+
+      next: (response: any) => {
+
+        // si recibe un error
+        if (response.status === 'error') {
+          this.mensajeError = response.mensaje;
+          return;
+        }
+
+        console.log('Propuesta rechazada con exito');
+        this.mensajeError = response.mensaje;
+        this.obtenerPrpuestas();
+        return;
+
+      }
+
+
+
+    });
+
+
+
+  }
+
+  obtenerPrpuestas() {
 
     this.clienteService.obtenerPropuestas(this.id_proyecto).subscribe({
 
@@ -41,6 +93,7 @@ rechazar(){}
         }
 
         console.log('Propuestas cargadas con exito');
+        console.log('Propuesta = ' + response.monto);
         this.propuestas = response;
         return;
 

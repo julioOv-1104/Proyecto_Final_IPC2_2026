@@ -1,0 +1,97 @@
+<div class="reporte-ventas-wrapper">
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Entregas pendientes de del contrato</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>ID Contrato</th>
+                        <th>ID Entrega</th>
+                        <th>Archivos Adjuntos</th>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                        <th>aceptar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let e of entregas">
+                        <td>{{e.id_contrato}}</td>
+                        <td>{{e.id_entrega}}</td>
+                        <td>{{ e.archivo_url }}</td>
+                        <td>{{ e.descripcion }}</td>
+                        <td>{{e.estado}}</td>
+                        <td><button (click)="aceptarEntrega(e.id_entrega)" class="btn-submit">Aceptar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Rechazar Entrega</h1>
+            <p>Rechaza una entrega y explica la razon</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_entrega">ID de Entrega</label>
+                <input [(ngModel)]="id_entrega" type="number" name="id_entrega" id="id_entrega" required>
+            </div>
+
+            <div class="field-full">
+                <label for="motivo">Motivo de rechazo</label>
+                <textarea [(ngModel)]="motivo" name="motivo" id="motivo" rows="3"></textarea>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="rechazar()" class="btn-submit">Rechazar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Cancelar Contrato</h1>
+            <p>Cancela un contrato y explica la razon</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_contrato">ID de Contrato</label>
+                <input [(ngModel)]="id_contrato" type="number" name="id_contrato" id="id_contrato" required>
+            </div>
+
+            <div class="field-full">
+                <label for="motivo_cancelacion">Motivo de cancelacion</label>
+                <textarea [(ngModel)]="motivo_cancelacion" name="motivo_cancelacion" id="motivo_cancelacion" rows="3"></textarea>
+            </div>
+
+
+            <div class="actions">
+                <button (click)="cancelarContrato()" class="btn-submit">Cancelar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError2 }}
+        </div>
+    </section>
+
+
+</div>

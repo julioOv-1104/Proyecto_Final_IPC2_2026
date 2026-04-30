@@ -9,4 +9,6 @@ export interface PropuestaModel {
     estado: string;
     fecha: string;
     motivo_rechazo: string;
+    nombre_freelancer: string;
+    calificacion_promedio: number;
 }

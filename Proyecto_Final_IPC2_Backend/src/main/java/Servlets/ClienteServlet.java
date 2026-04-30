@@ -84,8 +84,14 @@ public class ClienteServlet extends HttpServlet {
                 case "proyectosSinContrato":
                     obtenerProyectosSinContrato(request, response, om);
                     break;
+                case "proyectosConEntregas":
+                    obtenerProyectosConEntregas(request, response, om);
+                    break;
                 case "obtenerPropuestas":
                     obtenerPropuestas(request, response, om);
+                    break;
+                case "obtenerEntregas":
+                    obtenerEntregas(request, response, om);
                     break;
 
                 default:
@@ -121,6 +127,15 @@ public class ClienteServlet extends HttpServlet {
                     break;
                 case "cancelarProyecto":
                     cancelarProyecto(request, response, om);
+                    break;
+                case "aceptarPropuesta":
+                    aceptarPropuesta(request, response, om);
+                    break;
+                case "rechazarPropuesta":
+                    rechazarPropuesta(request, response, om);
+                    break;
+                case "rechazarEntrega":
+                    rechazarEntrega(request, response, om);
                     break;
 
                 default:
@@ -287,6 +302,30 @@ public class ClienteServlet extends HttpServlet {
 
     }
 
+    private void obtenerProyectosConEntregas(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+
+            ArrayList<Proyecto> proyectos = clienteDao.obtenerProyectosConEntrega(id_usuario);
+
+            if (proyectos == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener los proyectos con entregas\"}");
+
+            } else {
+                String json = om.writeValueAsString(proyectos);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER PROYECTOS CON ENTRREGAS DESDE SERVLET");
+        }
+
+    }
+
     private void cancelarProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
 
         try {
@@ -330,6 +369,103 @@ public class ClienteServlet extends HttpServlet {
             }
         } catch (Exception e) {
             System.out.println("ERROR AL OBTENER PROPUESTAS DESDE SERVLET");
+        }
+
+    }
+
+    private void aceptarPropuesta(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_propuesta = ((Number) datos.get("id_propuesta")).intValue();
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+
+            if (!servicio.aceptarPropuesta(id_propuesta, id_usuario)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"No tiene suficiente saldo para aceptar la propuesta\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Propuesta aceptada con exito. Se inició un contrato\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL ACEPTAR PROPUESTA DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void rechazarPropuesta(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_propuesta = ((Number) datos.get("id_propuesta")).intValue();
+            String motivo = ((String) datos.get("motivo"));
+
+            if (!clienteDao.rechazarPropuesta(id_propuesta, motivo)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al rechazar la propuesta\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Propuesta rechazada\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL RECHAZAR PROPUESTA DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void obtenerEntregas(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+
+            ArrayList<Entrega> entregas = clienteDao.obtenerEntregas(id_proyecto);
+
+            if (entregas == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener las entregas\"}");
+
+            } else {
+                String json = om.writeValueAsString(entregas);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER ENTREGAS DESDE SERVLET");
+        }
+
+    }
+
+    private void rechazarEntrega(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+            int id_entrega = ((Number) datos.get("id_entrega")).intValue();
+            String motivo = ((String) datos.get("motivo"));
+
+            if (!servicio.rechazarEntrega(id_entrega, motivo, id_proyecto)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al rechazar la entrega\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Entrega rechazada\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL RECHAZAR ENTREGA DESDE SERVLET: " + e.getMessage());
         }
 
     }

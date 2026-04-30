@@ -16,6 +16,10 @@ import { SolicitarCategoria } from './paginasCliente/solicitar-categoria/solicit
 import { PublicarProyecto } from './paginasCliente/publicar-proyecto/publicar-proyecto';
 import { EditarProyecto } from './paginasCliente/editar-proyecto/editar-proyecto';
 import { GestionPropuestas } from './paginasCliente/gestion-propuestas/gestion-propuestas';
+import { GestionEntregas } from './paginasCliente/gestion-entregas/gestion-entregas';
+
+
+
 
 export const routes: Routes = [
     { path: '', redirectTo: 'registrarse', pathMatch: 'full' },
@@ -35,5 +39,6 @@ export const routes: Routes = [
     {path: 'publicar-proyecto', component: PublicarProyecto},
     {path: 'editar-proyecto', component: EditarProyecto},
     { path: 'gestion-propuestas', component: GestionPropuestas },
+    { path: 'gestion-entregas', component: GestionEntregas },
     { path: 'crear-admins', component: CrearAdmins }
 ];

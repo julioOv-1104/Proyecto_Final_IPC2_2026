@@ -15,6 +15,8 @@ public class Propuesta {
     private String estado;
     private Date fecha;
     private String motivo_rechazo;
+    private String nombre_freelancer;
+    private double calificacion_promedio;
 
     public Propuesta() {
     }
@@ -101,6 +103,22 @@ public class Propuesta {
 
     public void setMotivo_rechazo(String motivo_rechazo) {
         this.motivo_rechazo = motivo_rechazo;
+    }
+
+    public String getNombre_freelancer() {
+        return nombre_freelancer;
+    }
+
+    public void setNombre_freelancer(String nombre_freelancer) {
+        this.nombre_freelancer = nombre_freelancer;
+    }
+
+    public double getCalificacion_promedio() {
+        return calificacion_promedio;
+    }
+
+    public void setCalificacion_promedio(double calificacion_promedio) {
+        this.calificacion_promedio = calificacion_promedio;
     }
     
     
