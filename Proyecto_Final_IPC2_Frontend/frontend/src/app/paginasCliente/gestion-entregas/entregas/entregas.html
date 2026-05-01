@@ -24,7 +24,7 @@
                         <td>{{ e.archivo_url }}</td>
                         <td>{{ e.descripcion }}</td>
                         <td>{{e.estado}}</td>
-                        <td><button (click)="aceptarEntrega(e.id_entrega)" class="btn-submit">Aceptar</button></td>
+                        <td><button (click)="aceptarEntrega(e.id_entrega, e.id_contrato)" class="btn-submit">Aceptar</button></td>
                     </tr>
                 </tbody>
             </table>

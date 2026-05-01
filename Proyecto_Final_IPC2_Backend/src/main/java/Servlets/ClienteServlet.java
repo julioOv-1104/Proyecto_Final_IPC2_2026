@@ -137,6 +137,12 @@ public class ClienteServlet extends HttpServlet {
                 case "rechazarEntrega":
                     rechazarEntrega(request, response, om);
                     break;
+                case "aceptarEntrega":
+                    aceptarEntrega(request, response, om);
+                    break;
+                case "cancelarContrato":
+                    cancelarContrato(request, response, om);
+                    break;
 
                 default:
 
@@ -466,6 +472,56 @@ public class ClienteServlet extends HttpServlet {
 
         } catch (Exception e) {
             System.out.println("ERROR AL RECHAZAR ENTREGA DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void aceptarEntrega(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+            int id_entrega = ((Number) datos.get("id_entrega")).intValue();
+            int id_contrato = ((Number) datos.get("id_contrato")).intValue();
+
+            if (!servicio.aceptarEntrega(id_entrega, id_proyecto, id_contrato)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al aceptar la entrega\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Entrega aceptada, se realizo un pago\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL ACEPTAR ENTREGA Y PAGAR DESDE SERVLET: " + e.getMessage());
+        }
+
+    }
+
+    private void cancelarContrato(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+            int id_contrato = ((Number) datos.get("id_contrato")).intValue();
+            String motivo = ((String) datos.get("motivo"));
+
+            if (!servicio.cancelarContrato(motivo, id_proyecto, id_contrato)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al cancelar el contrato\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Contrato canceldo con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL CANCELAR CONTRATO DESDE SERVLET: " + e.getMessage());
         }
 
     }

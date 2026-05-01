@@ -55,7 +55,28 @@ export class Entregas {
     });
   }
 
-    aceptarEntrega(id_entrega:number){
+    aceptarEntrega(id_entrega:number, id_contrato:number){
+
+      this.clienteService.aceptarEntrega(this.id_proyecto, id_entrega, id_contrato).subscribe({
+
+      next: (response: any) => {
+
+        // si recibe un error
+        if (response.status === 'error') {
+          this.mensajeError = response.mensaje;
+          return;
+        }
+
+        console.log('Entrega aceptada con exito');
+        this.mensajeError = response.mensaje;
+        this.obtenerEntregas();
+        return;
+
+      }
+
+
+
+    });
 
     }
 
@@ -89,6 +110,34 @@ export class Entregas {
 
     }
 
-    cancelarContrato(){}
+    cancelarContrato(){
+
+      if(!this.motivo_cancelacion || this.id_contrato <=0 || !this.id_contrato){
+        this.mensajeError = 'Ingrese un id de contrato y motivo validos';
+        return;
+      }
+
+      this.clienteService.cancelarContrato(this.id_proyecto, this.id_contrato, this.motivo_cancelacion).subscribe({
+
+      next: (response: any) => {
+
+        // si recibe un error
+        if (response.status === 'error') {
+          this.mensajeError = response.mensaje;
+          return;
+        }
+
+        console.log('Contrato rechazado con exito');
+        this.mensajeError = response.mensaje;
+        this.obtenerEntregas();
+        return;
+
+      }
+
+
+
+    });
+
+    }
 
 }

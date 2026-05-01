@@ -511,7 +511,7 @@ public class ClienteDAO extends Usuario {
                     + "WHERE p.id_proyecto = ? \n"
                     + "AND e.estado = 'PENDIENTE';";
             //obtiene solo las entregas del proyecto que estan pendientes
-            
+
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, id_proyecto);
 
@@ -532,7 +532,7 @@ public class ClienteDAO extends Usuario {
 
         return entregas;
     }
-    
+
     public boolean rechazarEntrega(int id_entrega, String motivo) {
 
         try (Connection conn = conexion.conectar()) {
@@ -549,6 +549,156 @@ public class ClienteDAO extends Usuario {
 
         } catch (SQLException e) {
             System.out.println("ERROR AL RECHAZAR ENTREGA DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean cambiarEstadoEntrega(int id_entrega, String estado) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE entregas SET estado = ? WHERE id_entrega = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, estado);
+            stm.setInt(2, id_entrega);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL CAMBIAR ESTADO DE ENTREGA A " + estado + ", DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean cambiarEstadoContrato(int id_contrato, String estado) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE contratos SET estado = ? WHERE id_contrato = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, estado);
+            stm.setInt(2, id_contrato);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL CAMBIAR ESTADO DE CONTRATO A " + estado + ", DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean calcularComisionYpagar(int id_contrato) {
+
+        double monto = 0;
+        double porcentaje = 0;
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT * FROM contratos WHERE id_contrato = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_contrato);
+
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+
+                monto = rs.getDouble("monto");
+                porcentaje = rs.getDouble("porcentaje");
+
+                double comision = (porcentaje / 100);
+
+                double gananciaSistema = monto * comision;
+                double gananciaFreelancer = monto - gananciaSistema;
+                //se calcula la ganancia del sistema y del freelancer
+
+                return pagarFreelancer(id_contrato, gananciaFreelancer);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL CALCULAR Y ACREDITAR LAS GANANCIAS DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean pagarFreelancer(int id_contrato, double pago) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE usuarios\n"
+                    + "JOIN freelancers ON usuarios.id_usuario = freelancers.id_usuario\n"
+                    + "JOIN propuestas ON freelancers.id_freelancer = propuestas.id_freelancer\n"
+                    + "JOIN contratos ON propuestas.id_propuesta = contratos.id_propuesta\n"
+                    + "SET usuarios.saldo = usuarios.saldo + ? \n"
+                    + "WHERE contratos.id_contrato = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setDouble(1, pago);
+            stm.setInt(2, id_contrato);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL PAGAR A FREELANCER DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean cancelarContrato(int id_contrato, String motivo) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE contratos SET estado = 'CANCELADO', motivo_cancelacion = ? WHERE id_contrato = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, motivo);
+            stm.setInt(2, id_contrato);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL CANCELAR CONTRATO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean devolverDineroCliente(int id_contrato) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "UPDATE usuarios\n"
+                    + "JOIN clientes ON usuarios.id_usuario = clientes.id_usuario\n"
+                    + "JOIN proyectos ON clientes.id_cliente = proyectos.id_cliente\n"
+                    + "JOIN contratos ON proyectos.id_proyecto = contratos.id_proyecto\n"
+                    + "SET usuarios.saldo = usuarios.saldo + contratos.monto  \n"
+                    + "WHERE contratos.id_contrato = ?";
+            //a partir del contrato se le devuelve el dinero al cliente 
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_contrato);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL DEVOLVER DINERO A CLIENTE DESDE DAO " + e.getMessage());
         }
 
         return false;

@@ -26,7 +26,12 @@ export class ClienteService {
   rechazarPropuestaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=rechazarPropuesta';
   obtenerEntregasUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=obtenerEntregas';
   rechazarEntregaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=rechazarEntrega';
- 
+  aceptarEntregaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=aceptarEntrega';
+  cancelarContratoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=cancelarContrato';
+
+
+
+
 
 
   registrarInfo(id_usuario: number, descripcion: string, sector: string, sitio_web: string) {
@@ -90,8 +95,16 @@ export class ClienteService {
     return this.http.post<EntregaModel[]>(this.obtenerEntregasUrl, { id_proyecto });
   }
 
-  rechazarEntrega(id_proyecto:number, id_entrega: number, motivo: string) {
-    return this.http.put(this.rechazarEntregaUrl, { id_proyecto,id_entrega, motivo });
+  rechazarEntrega(id_proyecto: number, id_entrega: number, motivo: string) {
+    return this.http.put(this.rechazarEntregaUrl, { id_proyecto, id_entrega, motivo });
+  }
+
+  aceptarEntrega(id_proyecto: number, id_entrega: number, id_contrato: number) {
+    return this.http.put(this.aceptarEntregaUrl, { id_proyecto, id_entrega, id_contrato });
+  }
+
+  cancelarContrato(id_proyecto: number, id_contrato: number, motivo: string) {
+    return this.http.put(this.cancelarContratoUrl, { id_proyecto, id_contrato, motivo });
   }
 
 }

@@ -48,5 +48,24 @@ public class ClienteService {
         return clienteDao.rechazarEntrega(id_entrega, motivo);
 
     }
+    
+     public boolean aceptarEntrega(int id_entrega, int id_proyecto, int id_contrato) {
+
+        clienteDao.cambiarEstadoProyecto("COMPLETADO", id_proyecto);//se completo el proyecto
+        clienteDao.cambiarEstadoEntrega(id_entrega, "ACEPTADA");//Se acepta la entrega
+        clienteDao.cambiarEstadoContrato(id_contrato, "COMPLETADO");// se cambia el estado del contrato a completado
+
+        return clienteDao.calcularComisionYpagar(id_contrato);
+
+    }
+     
+      public boolean cancelarContrato( String motivo, int id_proyecto, int id_contrato) {
+
+        clienteDao.cambiarEstadoProyecto("CANCELADO", id_proyecto);//se cancela el proyecto
+        clienteDao.cancelarContrato(id_contrato, motivo);
+        return clienteDao.devolverDineroCliente(id_contrato);
+
+
+    }
 
 }
