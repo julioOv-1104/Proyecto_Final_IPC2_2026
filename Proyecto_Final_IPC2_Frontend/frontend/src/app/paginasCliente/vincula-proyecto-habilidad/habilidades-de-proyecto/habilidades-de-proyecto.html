@@ -1,0 +1,30 @@
+<div class="reporte-ventas-wrapper">
+
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Habilidades vinculadas con el proyecto</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>ID Habilidad</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Desvincular</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let h of habilidades">
+                        <td>{{ h.id_habilidad }}</td>
+                        <td>{{ h.nombre }}</td>
+                        <td>{{h.descripcion}}</td>
+                        <td><button (click)="vincularDesvincular(h.id_proyecto, h.id_habilidad)">Desvincular</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

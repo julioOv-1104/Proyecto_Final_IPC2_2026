@@ -1,0 +1,76 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Freelancers</h2>
+            <p>Freelancers que han completado proyectos para mi</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Freelancer</th>
+                        <th>Nombre Freelancer</th>
+                        <th>ID Contrato</th>
+                        <th>Titulo del Proyecto</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let f of freelancers">
+                        <td>{{ f.id_freelancer }}</td>
+                        <td>{{ f.nombre_freelancer }}</td>
+                        <td>{{ f.id_contrato }}</td>
+                        <td>{{ f.titulo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="form-card">
+        <header class="form-header">
+            <h1>Calificar</h1>
+            <p>Ingrese el numero de estrellas y comentario para calificar a un freelancer</p>
+        </header>
+
+        <form class="paquete-form">
+
+            <div class="field">
+                <label for="id_contrato">ID de Contrato</label>
+                <input [(ngModel)]="id_contrato" type="number" name="id_contrato" id="id_contrato" required>
+            </div>
+
+            <div class="field">
+                <label for="id_freelancer">ID de Freelancer</label>
+                <input [(ngModel)]="id_freelancer" type="number" name="id_freelancer" id="id_freelancer" required>
+            </div>
+
+             <div class="field">
+                <label for="estrellas">Estrellas (1 a 5)</label>
+                <input [(ngModel)]="estrellas" type="number" name="estrellas" id="estrellas" required>
+            </div>
+
+            <div class="field">
+                <label for="comentario">Comentario</label>
+                <textarea [(ngModel)]="comentario"  name="comentario" id="comentario" rows="3" required></textarea>
+            </div>
+
+            <div class="actions">
+                <button (click)="calificar()" class="btn-submit">Calificar</button>
+            </div>
+
+        </form>
+
+        <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+            {{ mensajeError }}
+        </div>
+    </section>
+
+
+</div>
+
+
+
+<app-menu-cliente></app-menu-cliente>

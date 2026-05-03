@@ -78,6 +78,9 @@ public class ClienteServlet extends HttpServlet {
                 case "publicar":
                     publicarProyecto(request, response, om);
                     break;
+                case "vincular":
+                    vincularProyectoHabilidad(request, response, om);
+                    break;
                 case "editar":
                     editarProyecto(request, response, om);
                     break;
@@ -92,6 +95,12 @@ public class ClienteServlet extends HttpServlet {
                     break;
                 case "obtenerEntregas":
                     obtenerEntregas(request, response, om);
+                    break;
+                case "obtenerFreelancersCalificables":
+                    obtenerCalificables(request, response, om);
+                    break;
+                case "obtenerHabilidadesDeProyecto":
+                    obtenerHabilidadesDeProyecto(request, response, om);
                     break;
 
                 default:
@@ -142,6 +151,9 @@ public class ClienteServlet extends HttpServlet {
                     break;
                 case "cancelarContrato":
                     cancelarContrato(request, response, om);
+                    break;
+                case "calificar":
+                    calificar(request, response, om);
                     break;
 
                 default:
@@ -245,7 +257,7 @@ public class ClienteServlet extends HttpServlet {
                 response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al publicar proyecto, intente de nuevo\"}");
 
             } else {
-                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Proyecto publicado con exito\"}");
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Proyecto publicado con exito, termine la publicacion vinculando habilidades\"}");
 
             }
 
@@ -524,6 +536,118 @@ public class ClienteServlet extends HttpServlet {
             System.out.println("ERROR AL CANCELAR CONTRATO DESDE SERVLET: " + e.getMessage());
         }
 
+    }
+
+    private void obtenerCalificables(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+        //obtiene los habilidades que completaron un proyecto para un cliente en especifico
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_cliente = ((Number) datos.get("id_cliente")).intValue();
+
+            ArrayList<FreelancerCompletado> freelancers = clienteDao.obtenerFreelancerQueCompletaronContratos(id_cliente);
+
+            if (freelancers == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener los freelancers calificables\"}");
+
+            } else {
+                String json = om.writeValueAsString(freelancers);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER FREELANCERS CALIFICABLES DESDE SERVLET");
+        }
+
+    }
+
+    private void calificar(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_contrato = ((Number) datos.get("id_contrato")).intValue();
+            int id_cliente = ((Number) datos.get("id_cliente")).intValue();
+            int id_freelancer = ((Number) datos.get("id_freelancer")).intValue();
+            double puntuacion = ((Number) datos.get("puntuacion")).doubleValue();
+            String comentario = ((String) datos.get("comentario"));
+
+            if (!clienteDao.registrarCalificacion(id_contrato, id_cliente, id_freelancer, puntuacion, comentario)) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al registrar calificacion\"}");
+
+            } else {
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Calificacion registrada con exito\"}");
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL REGISTRAR CALIFICACION DESDE SERVLET: " + e.getMessage());
+        }
+    }
+
+    private void vincularProyectoHabilidad(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+            int id_habilidad = ((Number) datos.get("id_habilidad")).intValue();
+            int metodo = ((Number) datos.get("metodo")).intValue();//si es 1 vincula, si es 2 desvincula
+
+            if (metodo == 1) {//vincula
+                if (!clienteDao.vincularProyectoHabilidad(id_proyecto, id_habilidad)) {
+
+                    response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al vincular la habilidad y el proyecto\"}");
+
+                } else {
+                    response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Habilidad y el proyecto vinculados exitosamente\"}");
+
+                }
+
+            } else {//desvincula
+
+                if (!clienteDao.desvincularProyectoHabilidad(id_proyecto, id_habilidad)) {
+
+                    response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al desvincular la habilidad y el proyecto\"}");
+
+                } else {
+                    response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Habilidad y el proyecto desvinculados exitosamente\"}");
+
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL VINCULAR/DESVINCULAR HABILIDAD Y PROYECTO DESDE SERVLET");
+        }
+
+    }
+
+    private void obtenerHabilidadesDeProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+      
+        try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_proyecto = ((Number) datos.get("id_proyecto")).intValue();
+
+            ArrayList<Habilidad> habilidades = clienteDao.obtenerHabilidadesDeProyecto(id_proyecto);
+
+            if (habilidades == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener las habilidades del proyecto\"}");
+
+            } else {
+                String json = om.writeValueAsString(habilidades);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER HABILIDADES DE PROYECTO DESDE SERVLET");
+        }
+        
     }
 
 }

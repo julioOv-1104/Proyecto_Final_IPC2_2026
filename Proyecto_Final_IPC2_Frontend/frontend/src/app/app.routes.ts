@@ -17,6 +17,9 @@ import { PublicarProyecto } from './paginasCliente/publicar-proyecto/publicar-pr
 import { EditarProyecto } from './paginasCliente/editar-proyecto/editar-proyecto';
 import { GestionPropuestas } from './paginasCliente/gestion-propuestas/gestion-propuestas';
 import { GestionEntregas } from './paginasCliente/gestion-entregas/gestion-entregas';
+import { Calificacion } from './paginasCliente/calificacion/calificacion';
+import { ReportesCliente } from './paginasCliente/reportes-cliente/reportes-cliente';
+import { VinculaProyectoHabilidad } from './paginasCliente/vincula-proyecto-habilidad/vincula-proyecto-habilidad';
 
 
 
@@ -40,5 +43,8 @@ export const routes: Routes = [
     {path: 'editar-proyecto', component: EditarProyecto},
     { path: 'gestion-propuestas', component: GestionPropuestas },
     { path: 'gestion-entregas', component: GestionEntregas },
+    { path: 'calificacion', component: Calificacion },
+    { path: 'reportes-cliente', component: ReportesCliente },
+    { path: 'vincula-habilidad', component: VinculaProyectoHabilidad },
     { path: 'crear-admins', component: CrearAdmins }
 ];

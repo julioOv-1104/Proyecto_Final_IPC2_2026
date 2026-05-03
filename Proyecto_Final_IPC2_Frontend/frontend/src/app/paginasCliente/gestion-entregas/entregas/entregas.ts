@@ -127,7 +127,7 @@ export class Entregas {
           return;
         }
 
-        console.log('Contrato rechazado con exito');
+        console.log('Contrato cancelado con exito');
         this.mensajeError = response.mensaje;
         this.obtenerEntregas();
         return;

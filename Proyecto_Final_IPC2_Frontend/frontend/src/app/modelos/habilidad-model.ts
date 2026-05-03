@@ -5,4 +5,5 @@ export interface HabilidadModel {
     nombre: string;
     descripcion: string;
     estado: boolean;
+    id_proyecto: number;
 }

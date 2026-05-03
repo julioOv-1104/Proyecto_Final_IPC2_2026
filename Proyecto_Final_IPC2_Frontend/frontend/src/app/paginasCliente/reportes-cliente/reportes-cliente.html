@@ -1,0 +1,52 @@
+<div class="formulario-reportes">
+    <h1>Reportes de Cliente</h1>
+    <h2>Ingresar las fechas a buscar</h2>
+
+    <form>
+        <div class="campos-fechas">
+            <div class="campo">
+                <label for="fechaInicio">Fecha de inicio:</label>
+                <input [(ngModel)]="fechaInicio" type="date" id="fechaInicio" name="fechaInicio" required>
+            </div>
+
+            <div class="campo">
+                <label for="fechaFin">Fecha de fin:</label>
+                <input [(ngModel)]="fechaFin" type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+        </div>
+
+        <div class="botones">
+            <button (click)="mostrarReporte('proyectos')" type="button" class="btn-ventas">Historial de
+                Proyectos</button>
+            <button (click)="mostrarReporte('recargas')" type="button" class="btn-ventas">Historial de
+                Recargas</button>
+            <button (click)="mostrarReporte('gastos')" type="button" class="btn-ventas">Historial de
+                Gastos</button>
+        </div>
+        <br>
+
+    </form>
+</div>
+
+<app-reporte-historial-proyectos 
+*ngIf="tipoReporte === 'proyectos'"
+ [fechaInicio]="fechaInicio" 
+ [fechaFin]="fechaFin"
+[id_usuario]="id_usuario">
+</app-reporte-historial-proyectos>
+
+<app-reporte-historial-recargas 
+*ngIf="tipoReporte === 'recargas'" 
+[id_usuario]="id_usuario">
+</app-reporte-historial-recargas>
+
+<app-reporte-historial-gastos 
+*ngIf="tipoReporte === 'gastos'"
+ [fechaInicio]="fechaInicio" 
+ [fechaFin]="fechaFin"
+[id_usuario]="id_usuario">
+</app-reporte-historial-gastos>
+
+
+
+<app-menu-cliente></app-menu-cliente>

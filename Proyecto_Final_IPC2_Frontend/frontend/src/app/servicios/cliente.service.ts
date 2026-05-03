@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ProyectoModel } from '../modelos/proyecto-model';
 import { PropuestaModel } from '../modelos/propuesta-model';
 import { EntregaModel } from '../modelos/entrega-model';
+import { HabilidadModel } from '../modelos/habilidad-model';
+import { FreelancerCompletado } from '../modelos/freelancer-completado';
 import { Observable } from 'rxjs';
 
 
@@ -28,6 +30,10 @@ export class ClienteService {
   rechazarEntregaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=rechazarEntrega';
   aceptarEntregaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=aceptarEntrega';
   cancelarContratoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=cancelarContrato';
+  obtenerFreelancersUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=obtenerFreelancersCalificables';
+  calificarUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=calificar';
+  obtenerHabilidadesDeProyectoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=obtenerHabilidadesDeProyecto';
+  vincularDesvincularUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=vincular';
 
 
 
@@ -106,5 +112,26 @@ export class ClienteService {
   cancelarContrato(id_proyecto: number, id_contrato: number, motivo: string) {
     return this.http.put(this.cancelarContratoUrl, { id_proyecto, id_contrato, motivo });
   }
+
+  obtenerFreelancers(id_cliente: number): Observable<FreelancerCompletado[]> {
+    return this.http.post<FreelancerCompletado[]>(this.obtenerFreelancersUrl, { id_cliente });
+  }
+
+  calificar(id_contrato: number, id_cliente: number, id_freelancer: number, puntuacion: number,
+    comentario: string) {
+    return this.http.put(this.calificarUrl, {
+      id_contrato, id_cliente,
+      id_freelancer, puntuacion, comentario
+    });
+  }
+
+  obtenerHabilidadesDeProyecto(id_proyecto: number): Observable<HabilidadModel[]> {
+    return this.http.post<HabilidadModel[]>(this.obtenerHabilidadesDeProyectoUrl, { id_proyecto });
+  }
+
+  vincularDesvincularHabilidad(id_proyecto: number, id_habilidad: number, metodo: number) {
+    return this.http.post(this.vincularDesvincularUrl, { id_proyecto, id_habilidad, metodo });
+  }
+
 
 }

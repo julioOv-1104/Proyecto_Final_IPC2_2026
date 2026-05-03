@@ -1,0 +1,42 @@
+<div class="crear-paquetes-page">
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Proyectos</h2>
+            <p>Mis proyectos sin contrato</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Fecha Limite</th>
+                        <th>Estado</th>
+                        <th>Mostrar Habilidades</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of proyectos">
+                        <td>{{ p.titulo }}</td>
+                        <td>{{ p.descripcion }}</td>
+                        <td>{{p.fecha_limite}}</td>
+                        <td>{{p.estado}}</td>
+                        <td><button (click)="mostrarHabilidades(p.id_proyecto)" class="btn-submit">Mostrar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button (click)="ocultar()" class="btn-submit">Ocultar</button>
+        </div>
+    </section>
+
+</div>
+
+<app-habilidades-de-proyecto
+*ngIf="activo"
+[id_proyecto]="id_proyecto">
+</app-habilidades-de-proyecto>
+
+<app-menu-cliente></app-menu-cliente>

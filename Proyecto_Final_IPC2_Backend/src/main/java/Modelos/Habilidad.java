@@ -6,6 +6,7 @@ public class Habilidad {
     private int id_habilidad, id_categoria;
     private String nombre, descripcion;
     private boolean estado;
+    private int id_proyecto;
 
     public Habilidad() {
     }
@@ -16,6 +17,15 @@ public class Habilidad {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
+    }
+    
+    public Habilidad(int id_habilidad, int id_categoria, String nombre, String descripcion, boolean estado, int id_proyecto) {
+        this.id_habilidad = id_habilidad;
+        this.id_categoria = id_categoria;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.id_proyecto = id_proyecto;
     }
 
     public int getId_habilidad() {
@@ -56,6 +66,14 @@ public class Habilidad {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public int getId_proyecto() {
+        return id_proyecto;
+    }
+
+    public void setId_proyecto(int id_proyecto) {
+        this.id_proyecto = id_proyecto;
     }
     
     

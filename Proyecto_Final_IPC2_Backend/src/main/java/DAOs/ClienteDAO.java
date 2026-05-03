@@ -103,10 +103,31 @@ public class ClienteDAO extends Usuario {
 
             stm.executeUpdate();
 
-            return true;
+            return registrarRecarga(id_usuario, recarga);
 
         } catch (SQLException e) {
             System.out.println("ERROR AL RECARGAR SALDO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+    
+    private boolean registrarRecarga(int id_usuario, double recarga) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "INSERT INTO recargas (id_cliente, monto) VALUES "
+                    + "((SELECT id_cliente FROM Clientes WHERE id_usuario = ?), ?)";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_usuario);
+            stm.setDouble(2, recarga);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL REGISTRAR RECARGA DESDE DAO " + e.getMessage());
         }
 
         return false;
@@ -225,6 +246,81 @@ public class ClienteDAO extends Usuario {
         }
 
         return false;
+    }
+    
+    public boolean vincularProyectoHabilidad(int id_proyecto, int id_habilidad) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "INSERT INTO proyecto_habilidad (id_proyecto, id_habilidad) VALUES (?,?)";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+            stm.setInt(2, id_habilidad);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL VINCULAR HABILIDAD Y PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+    
+    public boolean desvincularProyectoHabilidad(int id_proyecto, int id_habilidad) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "DELETE FROM proyecto_habilidad WHERE id_proyecto = ? AND id_habilidad = ?";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+            stm.setInt(2, id_habilidad);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL DESVINCULAR HABILIDAD Y PROYECTO DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+    
+    
+    public ArrayList<Habilidad> obtenerHabilidadesDeProyecto(int id_proyecto) {
+
+        ArrayList<Habilidad> habilidades = new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = " SELECT * FROM habilidades JOIN proyecto_habilidad ON "
+                    + "habilidades.id_habilidad = proyecto_habilidad.id_habilidad "
+                    + "WHERE proyecto_habilidad.id_proyecto = ?";//selecciona las habilidades vinculadas a un proyecto
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_proyecto);
+
+            ResultSet rs = stm.executeQuery();
+            
+            System.out.println("SQL: "+stm);
+
+            while (rs.next()) {
+
+                Habilidad nuevo = new Habilidad(rs.getInt("id_habilidad"), rs.getInt("id_categoria"),
+                        rs.getString("nombre"), rs.getString("descripcion"), rs.getBoolean("estado"), rs.getInt("id_proyecto"));
+
+                habilidades.add(nuevo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER HABILIDADES DE PROYECTO DESDE DAO" + e.getMessage());
+        }
+
+        return habilidades;
     }
 
     public boolean editarProyecto(int id_proyecto, int id_categoria, String titulo, String descripcion,
@@ -699,6 +795,81 @@ public class ClienteDAO extends Usuario {
 
         } catch (SQLException e) {
             System.out.println("ERROR AL DEVOLVER DINERO A CLIENTE DESDE DAO " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public ArrayList<FreelancerCompletado> obtenerFreelancerQueCompletaronContratos(int id_usuario) {
+
+        ArrayList<FreelancerCompletado> entregas = new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT \n"
+                    + "    u_free.nombre_completo AS nombre_freelancer, \n"
+                    + "    c.id_contrato,\n"
+                    + "    p.id_freelancer,\n"
+                    + "    pr.titulo\n"
+                    + "FROM Usuarios u_clie \n"
+                    + "JOIN Clientes cl \n"
+                    + "    ON u_clie.id_usuario = cl.id_usuario \n"
+                    + "JOIN Proyectos pr \n"
+                    + "    ON cl.id_cliente = pr.id_cliente\n"
+                    + "JOIN Propuestas p \n"
+                    + "    ON pr.id_proyecto = p.id_proyecto\n"
+                    + "JOIN Contratos c \n"
+                    + "    ON p.id_propuesta = c.id_propuesta\n"
+                    + "JOIN Freelancers f \n"
+                    + "    ON p.id_freelancer = f.id_freelancer\n"
+                    + "JOIN Usuarios u_free \n"
+                    + "    ON f.id_usuario = u_free.id_usuario\n"
+                    + "WHERE u_clie.id_usuario = ? \n"
+                    + "AND c.estado = 'COMPLETADO';";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_usuario);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+
+                FreelancerCompletado nuevo = new FreelancerCompletado(rs.getString("nombre_freelancer"),
+                        rs.getString("titulo"), rs.getInt("id_contrato"), rs.getInt("id_freelancer"));
+
+                entregas.add(nuevo);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER FREELANCER CALIFICACBLES DESDE DAO" + e.getMessage());
+        }
+
+        return entregas;
+    }
+
+    public boolean registrarCalificacion(int id_contrato, int id_usuario, int id_freelancer, double puntuacion,
+            String comentario) {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "INSERT INTO Calificaciones (id_contrato, id_cliente, id_freelancer, puntuacion, comentario)"
+                    + "VALUES (?,(SELECT id_cliente FROM Clientes WHERE id_usuario = ?),?,?,?)";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_contrato);
+            stm.setInt(2, id_usuario);
+            stm.setInt(3, id_freelancer);
+            stm.setDouble(4, puntuacion);
+            stm.setString(5, comentario);
+
+            System.out.println("SQL: " + stm);
+
+            stm.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL REGISTRAR CALIFICACION DESDE DAO " + e.getMessage());
         }
 
         return false;

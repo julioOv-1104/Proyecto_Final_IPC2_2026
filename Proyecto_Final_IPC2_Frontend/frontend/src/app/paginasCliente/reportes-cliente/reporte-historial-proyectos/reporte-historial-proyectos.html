@@ -1,0 +1,34 @@
+<div class="reporte-ventas-wrapper">
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+    <section class="reporte-ventas-card">
+        <header class="reporte-ventas-header">
+            <h2>Historial de Proyectos publicados</h2>
+        </header>
+
+        <div class="reporte-ventas-scroll">
+            <table class="reporte-ventas-table">
+                <thead>
+                    <tr>
+                        <th>Titulo Proyecto</th>
+                        <th>Fecha de publicacion</th>
+                        <th>Estado Actual</th>
+                        <th>Monto</th>
+                        <th>Freelancer</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let h of historial">
+                        <td>{{ h.titulo }}</td>
+                        <td>{{ h.fecha }}</td>
+                        <td>{{ h.estado_proyecto }}</td>
+                        <td>{{ h.monto }}</td>
+                        <td>{{ h.freelancer }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
