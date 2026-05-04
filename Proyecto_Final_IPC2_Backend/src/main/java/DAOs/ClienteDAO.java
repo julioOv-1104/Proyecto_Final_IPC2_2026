@@ -66,6 +66,9 @@ public class ClienteDAO extends Usuario {
     }
 
     public ArrayList<Usuario> obtenerClientes() {
+        
+         System.out.println("ENTRA A OBTENER CLIENTES..");
+       
 
         ArrayList<Usuario> clientes = new ArrayList<>();
 
@@ -84,6 +87,8 @@ public class ClienteDAO extends Usuario {
 
                 clientes.add(nuevo);
             }
+            
+            
 
         } catch (SQLException e) {
             System.out.println("ERROR AL OBTENER CLIENTES DESDE DAO" + e.getMessage());

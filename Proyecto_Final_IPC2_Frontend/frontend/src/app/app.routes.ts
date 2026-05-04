@@ -20,6 +20,8 @@ import { GestionEntregas } from './paginasCliente/gestion-entregas/gestion-entre
 import { Calificacion } from './paginasCliente/calificacion/calificacion';
 import { ReportesCliente } from './paginasCliente/reportes-cliente/reportes-cliente';
 import { VinculaProyectoHabilidad } from './paginasCliente/vincula-proyecto-habilidad/vincula-proyecto-habilidad';
+import { SolicitarHabilidad } from './paginasFreelancer/solicitar-habilidad/solicitar-habilidad';
+import { GestionarHabilidades } from './paginasFreelancer/gestionar-habilidades/gestionar-habilidades';
 
 
 
@@ -46,5 +48,7 @@ export const routes: Routes = [
     { path: 'calificacion', component: Calificacion },
     { path: 'reportes-cliente', component: ReportesCliente },
     { path: 'vincula-habilidad', component: VinculaProyectoHabilidad },
+    { path: 'solicitar-habilidad', component: SolicitarHabilidad },
+    { path: 'gestionar-habilidades', component: GestionarHabilidades },
     { path: 'crear-admins', component: CrearAdmins }
 ];

@@ -145,7 +145,7 @@ public class ReportesAdminDAO {
             while (rs.next()) {
 
                 TopCategorias nuevo = new TopCategorias(rs.getString("nombre_categoria"),
-                        rs.getInt("cantidad_contratos"), rs.getInt("total_comision"));
+                        rs.getInt("cantidad_contratos"), rs.getInt("total_comisiones"));
 
                 topCategorias.add(nuevo);
 

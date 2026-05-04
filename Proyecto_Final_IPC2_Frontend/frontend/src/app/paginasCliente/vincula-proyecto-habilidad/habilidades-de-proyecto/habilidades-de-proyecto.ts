@@ -4,6 +4,7 @@ import { Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../../servicios/cliente.service';
 import { HabilidadModel } from '../../../modelos/habilidad-model';
+import { AdminService } from '../../../servicios/admin.service';
 
 @Component({
   selector: 'app-habilidades-de-proyecto',
@@ -13,14 +14,16 @@ import { HabilidadModel } from '../../../modelos/habilidad-model';
 })
 export class HabilidadesDeProyecto {
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(private clienteService: ClienteService, private adminService: AdminService) { }
 
   @Input() id_proyecto!: number;
   habilidades: HabilidadModel[] = [];
+  habilidadesDisponibles: HabilidadModel[] = [];
 
   ngOnInit() {
     console.log('iniciando... ');
     this.obtenerHabilidades();
+    this.obtenerHabilidadesDisponibles();
 
   }
 
@@ -46,9 +49,31 @@ export class HabilidadesDeProyecto {
 
   }
 
-  vincularDesvincular(id_proyecto: number, id_habilidad: number) {
-    //se envia 0 en el metodo porque es para desvincular
-    this.clienteService.vincularDesvincularHabilidad(id_proyecto, id_habilidad, 0).subscribe({
+  obtenerHabilidadesDisponibles() {
+
+    this.adminService.obtenerHabilidades().subscribe({
+      next: (response: any) => {
+
+        // si recibe un error
+        if (response.status === 'error') {
+          console.log(response.mensaje);
+          return;
+        }
+
+        this.habilidadesDisponibles = response;
+        console.log(response.mensaje);
+        return;
+
+      }
+
+
+    });
+
+  }
+
+  vincularDesvincular(id_proyecto: number, id_habilidad: number, metodo: number) {
+    //se envia 0 en el metodo porque para desvincular y 1 para vincular
+    this.clienteService.vincularDesvincularHabilidad(id_proyecto, id_habilidad, metodo).subscribe({
       next: (response: any) => {
 
         // si recibe un error

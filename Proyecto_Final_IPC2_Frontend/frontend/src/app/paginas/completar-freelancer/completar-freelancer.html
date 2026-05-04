@@ -8,21 +8,22 @@
             <p>Completa los datos y continua</p>
         </header>
 
-        <form  class="paquete-form">
-             <div class="field-full">
+        <form class="paquete-form">
+            <div class="field-full">
                 <label for="biografia">Descripcion o biografia profesional</label>
                 <textarea [(ngModel)]="biografia" name="biografia" id="biografia" rows="3"></textarea>
             </div>
             <div class="form-grid">
 
                 <div class="form-group">
-                <label for="nivel_experiencia">Nivel de experiencia</label>
-                <select [(ngModel)]="nivel_experiencia" name="nivel_experiencia" id="nivel_experiencia" class="form-input" required>
-                    <option value="1">Junio</option>
-                    <option value="2">Semi-Senior</option>
-                    <option value="3">Senior</option>
-                </select>
-            </div>
+                    <label for="nivel_experiencia">Nivel de experiencia</label>
+                    <select [(ngModel)]="nivel_experiencia" name="nivel_experiencia" id="nivel_experiencia"
+                        class="form-input" required>
+                        <option value="1">Junio</option>
+                        <option value="2">Semi-Senior</option>
+                        <option value="3">Senior</option>
+                    </select>
+                </div>
 
                 <div class="field">
                     <label for="tarifa_hora">Tarifa por hora referencial </label>
@@ -32,7 +33,8 @@
             </div>
 
             <div class="actions">
-                <button (click)="registrarInfo()" type="submit" class="btn-submit">Registrar informacion</button>
+                <button (click)="registrarInfo()" type="submit" class="btn-submit">Terminar y registrar
+                    informacion</button>
             </div>
 
         </form>

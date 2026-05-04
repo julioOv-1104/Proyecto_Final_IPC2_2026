@@ -1,0 +1,10 @@
+<div class="menu-container" [class.open]="isOpen">
+    <button class="close-btn" (click)="toggleMenu()">X</button>
+    <h2>Freelancer</h2>
+    <ul>
+        <li routerLink="/gestionar-habilidades">Gestionar Habilidades</li>
+        <li routerLink="/solicitar-habilidad">Solicitar Habilidad</li>
+        <li (click)="logout()">Cerrar Sesión</li>
+    </ul>
+</div>
+<button class="open-btn" (click)="toggleMenu()">Opciones</button>

@@ -39,6 +39,9 @@ public class ClienteServlet extends HttpServlet {
                 case "proyectosSinContrato":
                     obtenerProyectosSinContrato(request, response, om);
                     break;
+                case "clientes":
+                    obtenerClientes(request, response, om);
+                    break;
 
                 default:
 
@@ -627,7 +630,7 @@ public class ClienteServlet extends HttpServlet {
     }
 
     private void obtenerHabilidadesDeProyecto(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-      
+
         try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
@@ -647,7 +650,27 @@ public class ClienteServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("ERROR AL OBTENER HABILIDADES DE PROYECTO DESDE SERVLET");
         }
+
+    }
+
+    private void obtenerClientes(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
         
+        try {
+
+            ArrayList<Usuario> clientes = clienteDao.obtenerClientes();
+
+            if (clientes == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener los clientes\"}");
+
+            } else {
+                String json = om.writeValueAsString(clientes);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER CLIENTES DESDE SERVLET");
+        }
+    
     }
 
 }

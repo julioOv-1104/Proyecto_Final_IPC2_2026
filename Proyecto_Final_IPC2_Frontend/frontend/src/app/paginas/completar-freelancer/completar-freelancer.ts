@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FreelancerService } from '../../servicios/freelancer.service';
+import { HabilidadModel } from '../../modelos/habilidad-model';
+import { Router } from '@angular/router';
+import { AdminService } from '../../servicios/admin.service';
 
 @Component({
   selector: 'app-completar-freelancer',
@@ -11,13 +14,16 @@ import { FreelancerService } from '../../servicios/freelancer.service';
 })
 export class CompletarFreelancer {
 
-  constructor(private freelancerService: FreelancerService) { }
+  constructor(private freelancerService: FreelancerService, private adminService: AdminService,
+     private router: Router) { }
 
   id_usuario: number = 0;
   biografia: string = '';
   nivel_experiencia: string = '';
   tarifa_hora: number = 0;
   mensajeError: string | null = null
+  habilidadesDisponibles: HabilidadModel[] = [];
+  misHabilidades: HabilidadModel[] = [];
 
   ngOnInit() {
     const id = sessionStorage.getItem('usuario_id');
@@ -45,6 +51,7 @@ export class CompletarFreelancer {
         console.log('Informacion registrada con exito', response);
 
         this.mensajeError = 'Informacion registrada con exito';
+        this.router.navigate(['/gestionar-habilidades']); 
 
       }
 
@@ -52,6 +59,7 @@ export class CompletarFreelancer {
     });
 
   }
+
 
 
 }

@@ -15,8 +15,8 @@ export class UsuarioService {
   comprobarUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=comprobar';
   registrarAdminUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=admin';
   estadoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=estado';
-  obtenerClientesUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet';
-  obtenerFreelancersUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet';
+  obtenerClientesUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/ClienteServlet?accion=clientes';
+  obtenerFreelancersUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet?accion=obtenerFreelancers';
   obtenerSaldoUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/UsuarioServlet?accion=obtenerSaldo';
 
 
