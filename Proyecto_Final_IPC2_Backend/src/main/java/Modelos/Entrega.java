@@ -1,6 +1,7 @@
 
 package Modelos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Date;
 
 public class Entrega {
@@ -9,6 +10,8 @@ public class Entrega {
     private int id_contrato;
     private String descripcion; 
     private String archivo_url;  
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date fecha;  
     private String estado;      
     private String motivo_rechazo;
@@ -16,7 +19,8 @@ public class Entrega {
     public Entrega() {
     }
 
-    public Entrega(int id_entrega, int id_contrato, String descripcion, String archivo_url, Date fecha, String estado, String motivo_rechazo) {
+    public Entrega(int id_entrega, int id_contrato, String descripcion, String archivo_url, Date fecha,
+            String estado, String motivo_rechazo) {
         this.id_entrega = id_entrega;
         this.id_contrato = id_contrato;
         this.descripcion = descripcion;
@@ -25,6 +29,16 @@ public class Entrega {
         this.estado = estado;
         this.motivo_rechazo = motivo_rechazo;
     }
+
+    public Entrega(String descripcion, String archivo_url, Date fecha, String estado, String motivo_rechazo) {
+        this.descripcion = descripcion;
+        this.archivo_url = archivo_url;
+        this.fecha = fecha;
+        this.estado = estado;
+        this.motivo_rechazo = motivo_rechazo;
+    }
+    
+    
 
     public int getId_entrega() {
         return id_entrega;

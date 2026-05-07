@@ -14,14 +14,14 @@ import { ReportesClienteService } from '../../../servicios/reportes-cliente.serv
 export class ReporteHistorialRecargas {
 
   constructor(private reportesClienteService: ReportesClienteService) { }
-    
-      @Input() id_usuario!: number;
-      mensajeError: string | null = null;
-    
-      historial: HistorialRecargasModel[] = [];
+
+  @Input() id_usuario!: number;
+  mensajeError: string | null = null;
+
+  historial: HistorialRecargasModel[] = [];
 
 
-      ngOnInit() {
+  ngOnInit() {
     this.obtenerReporte();
   }
 
@@ -29,22 +29,22 @@ export class ReporteHistorialRecargas {
 
 
     this.reportesClienteService.obtenerRecargas(this.id_usuario)
-    .subscribe({
-      next: (response: any) => {
+      .subscribe({
+        next: (response: any) => {
 
-        // si recibe un error
-        if (response.status === 'error') {
-          this.mensajeError = response.mensaje;
+          // si recibe un error
+          if (response.status === 'error') {
+            this.mensajeError = response.mensaje;
+            return;
+          }
+
+          this.historial = response;
           return;
+
         }
 
-        this.historial = response;
-        return;
 
-      }
-
-
-    });
+      });
 
   }
 

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class UsuarioDAO {
 
@@ -104,14 +105,13 @@ public class UsuarioDAO {
         }
         return false;
     }
-    
-    
+
     public boolean registrarAdmin(int id_usuario) {
 
         try (Connection conn = conexion.conectar()) {
 
             String sql = "INSERT INTO administradores (id_usuario) VALUES (?)";
-            
+
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, id_usuario);
 
@@ -127,7 +127,6 @@ public class UsuarioDAO {
     }
 
     public boolean activarDesactivarUsuario(String username) {
-
 
         try (Connection conn = conexion.conectar()) {
 
@@ -145,8 +144,8 @@ public class UsuarioDAO {
 
         return false;
     }
-    
-     public double obtenerSaldo(int id_usuario) {
+
+    public double obtenerSaldo(int id_usuario) {
 
         try (Connection conn = conexion.conectar()) {
 
@@ -166,5 +165,33 @@ public class UsuarioDAO {
 
         return -1;
     }
-    
+
+    public ArrayList<Usuario> obtenerPerfil(int id_usuario) {
+
+        ArrayList<Usuario> perfil =  new ArrayList<>();
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id_usuario);
+            
+            System.out.println("SQL " +stm);
+
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                Usuario user = new Usuario(rs.getString("nombre_completo"), rs.getString("username"), rs.getString("correo"),
+                        rs.getString("telefono"), rs.getString("direccion"), rs.getString("cui"),
+                        rs.getDate("fecha_nacimiento"), rs.getDouble("saldo"));
+                
+                perfil.add(user);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER PERFIL DESDE DAO: " + e.getMessage());
+        }
+        return perfil;
+    }
+
 }

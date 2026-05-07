@@ -1,0 +1,87 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Proyectos</h2>
+            <p>Proyectos Abiertos</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>ID Proyecto</th>
+                        <th>ID categorias</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Presupuesto Maximo</th>
+                        <th>Fecha Limite</th>
+                        <th>Estado</th>
+                        <th>Habilidades</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of proyectos">
+                        <td>{{ p.id_proyecto }}</td>
+                        <td>{{ p.id_categoria }}</td>
+                        <td>{{ p.titulo }}</td>
+                        <td>{{ p.descripcion }}</td>
+                        <td>Q{{p.presupuesto_max}}</td>
+                        <td>{{p.fecha_limite}}</td>
+                        <td>{{p.estado}}</td>
+                        <td><button (click)="mostrarHabilidades(p.id_proyecto)" class="btn-submit">Ver Habilidades
+                                Requeridas</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button (click)="ocultar()" class="btn-submit">Ocultar</button>
+        </div>
+    </section>
+</div>
+
+<app-habilidades-de-proyectos-abiertos 
+*ngIf="activo" [id_proyecto]="id_proyecto">
+</app-habilidades-de-proyectos-abiertos>
+
+
+<section class="form-card">
+    <header class="form-header">
+        <h1>Propuestas</h1>
+        <p>Envia una propuesta a un proyecto</p>
+    </header>
+
+    <form class="paquete-form">
+
+        <div class="field">
+            <label for="id_proyecto_selec">ID de Proyecto</label>
+            <input [(ngModel)]="id_proyecto_selec" type="number" name="id_proyecto_selec" id="id_proyecto_selec" required>
+        </div>
+
+        <div class="field">
+            <label for="monto">Monto</label>
+            <input [(ngModel)]="monto" type="number" name="monto" id="monto" required>
+        </div>
+
+        <div class="field">
+            <label for="plazo_dias">Plazo de dias para completarlo</label>
+            <input [(ngModel)]="plazo_dias" type="number" name="plazo_dias" id="plazo_dias" required>
+        </div>
+
+        <div class="field-full">
+            <label for="descripcion">Descripción</label>
+            <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+        </div>
+
+        <div class="actions">
+            <button (click)="publicar()" class="btn-submit">Publicar</button>
+        </div>
+
+    </form>
+
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+</section>
+
+<app-menu-freelancer></app-menu-freelancer>

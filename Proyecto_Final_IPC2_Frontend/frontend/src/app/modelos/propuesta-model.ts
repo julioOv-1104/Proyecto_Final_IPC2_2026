@@ -11,4 +11,5 @@ export interface PropuestaModel {
     motivo_rechazo: string;
     nombre_freelancer: string;
     calificacion_promedio: number;
+    proyecto: string;
 }

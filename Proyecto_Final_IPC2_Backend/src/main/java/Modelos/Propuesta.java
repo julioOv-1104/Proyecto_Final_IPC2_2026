@@ -1,6 +1,7 @@
 
 package Modelos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Date;
 
 
@@ -13,13 +14,30 @@ public class Propuesta {
     private Integer plazo_dias;
     private String descripcion;
     private String estado;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date fecha;
+    
     private String motivo_rechazo;
     private String nombre_freelancer;
     private double calificacion_promedio;
+    private String proyecto;
 
     public Propuesta() {
     }
+
+    public Propuesta(int id_propuesta,Integer id_proyecto, double monto, Integer plazo_dias, String descripcion, String estado, Date fecha, String motivo_rechazo) {
+        this.id_propuesta = id_propuesta;
+        this.id_proyecto = id_proyecto;
+        this.monto = monto;
+        this.plazo_dias = plazo_dias;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.fecha = fecha;
+        this.motivo_rechazo = motivo_rechazo;
+    }
+    
+    
 
     public Propuesta(Integer id_propuesta, Integer id_proyecto, Integer id_freelancer, double monto, Integer plazo_dias, String descripcion, String estado, Date fecha, String motivo_rechazo) {
         this.id_propuesta = id_propuesta;
@@ -32,6 +50,14 @@ public class Propuesta {
         this.fecha = fecha;
         this.motivo_rechazo = motivo_rechazo;
     }
+
+    public Propuesta(double monto, String estado, Date fecha, String proyecto) {
+        this.monto = monto;
+        this.estado = estado;
+        this.fecha = fecha;
+        this.proyecto = proyecto;
+    }
+    
 
     public Integer getId_propuesta() {
         return id_propuesta;
@@ -119,6 +145,14 @@ public class Propuesta {
 
     public void setCalificacion_promedio(double calificacion_promedio) {
         this.calificacion_promedio = calificacion_promedio;
+    }
+
+    public String getProyecto() {
+        return proyecto;
+    }
+
+    public void setProyecto(String proyecto) {
+        this.proyecto = proyecto;
     }
     
     

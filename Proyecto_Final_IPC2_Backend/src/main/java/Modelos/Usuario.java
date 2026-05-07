@@ -15,7 +15,7 @@ public class Usuario {
     private String cui;
     private int rol;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date fecha_nacimiento;
     private Boolean estado;
     private double saldo;
@@ -56,6 +56,17 @@ public class Usuario {
         this.cui = cui;
         this.fecha_nacimiento = fecha_nacimiento;
         this.estado = estado;
+    }
+    
+    public Usuario(String nombre_completo, String username, String correo, String telefono, String direccion, String cui, Date fecha_nacimiento, double saldo) {
+        this.nombre_completo = nombre_completo;
+        this.username = username;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.cui = cui;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.saldo = saldo;
     }
     
     

@@ -6,6 +6,7 @@ public class TopCategorias {
     private String nombre_categoria;
     private int cantidad_contratos;
     private int total_comisiones;
+    private double total_ingresos;
 
     public TopCategorias() {
     }
@@ -14,6 +15,12 @@ public class TopCategorias {
         this.nombre_categoria = nombre_categoria;
         this.cantidad_contratos = cantidad_contratos;
         this.total_comisiones = total_comisiones;
+    }
+    
+    public TopCategorias(String nombre_categoria, int cantidad_contratos, double total_ingresos) {
+        this.nombre_categoria = nombre_categoria;
+        this.cantidad_contratos = cantidad_contratos;
+        this.total_ingresos = total_ingresos;
     }
 
     public String getNombre_categoria() {
@@ -38,6 +45,14 @@ public class TopCategorias {
 
     public void setTotal_comisiones(int total_comisiones) {
         this.total_comisiones = total_comisiones;
+    }
+
+    public double getTotal_ingresos() {
+        return total_ingresos;
+    }
+
+    public void setTotal_ingresos(double total_ingresos) {
+        this.total_ingresos = total_ingresos;
     }
     
     

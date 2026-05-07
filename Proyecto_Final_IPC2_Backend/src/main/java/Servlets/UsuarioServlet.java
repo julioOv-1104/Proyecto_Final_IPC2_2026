@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAOs.UsuarioDAO;
+import Modelos.Habilidad;
 import Modelos.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -59,6 +60,9 @@ public class UsuarioServlet extends HttpServlet {
                     break;
                 case "obtenerSaldo":
                     obtenerSaldo(request, response, om);
+                    break;
+                case "obtenerPerfil":
+                    obtenerPerfil(request, response, om);
                     break;
 
                 default:
@@ -184,13 +188,13 @@ public class UsuarioServlet extends HttpServlet {
     }
 
     private void obtenerSaldo(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-        
+
         try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
 
             int id_usuario = ((Number) datos.get("id_usuario")).intValue();
-            
+
             double saldo = usuarioDao.obtenerSaldo(id_usuario);
 
             if (saldo < 0) {
@@ -198,7 +202,7 @@ public class UsuarioServlet extends HttpServlet {
                 response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al obtener saldo\"}");
 
             } else {
-                
+
                 String json = om.writeValueAsString(saldo);
                 response.getWriter().print(json);
 
@@ -206,7 +210,31 @@ public class UsuarioServlet extends HttpServlet {
 
         } catch (Exception e) {
         }
-        
+
+    }
+
+    private void obtenerPerfil(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+      
+       try {
+
+            Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
+
+            int id_usuario = ((Number) datos.get("id_usuario")).intValue();
+
+            ArrayList<Usuario> perfil = usuarioDao.obtenerPerfil(id_usuario);
+
+            if (perfil == null) {
+
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener el perfil del usuario\"}");
+
+            } else {
+                String json = om.writeValueAsString(perfil);
+                response.getWriter().print(json);
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER PERFIL DE USUARIO DESDE SERVLET "+e.getMessage());
+        }
+    
     }
 
 }

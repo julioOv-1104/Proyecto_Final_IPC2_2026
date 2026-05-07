@@ -1,0 +1,44 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Propuestas</h2>
+            <p>Propuestas enviadas</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Monto Ofertado</th>
+                        <th>Plazo de entrega propuesto (dias)</th>
+                        <th>Descripcion</th>
+                        <th>Estado</th>
+                        <th>Fecha Creacion</th>
+                        <th>Motivo Rechazo</th>
+                        <th>Gestionar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let p of propuestas">
+                        <td>{{p.monto}}</td>
+                        <td>{{ p.plazo_dias }}</td>
+                        <td>{{p.descripcion}}</td>
+                        <td>{{p.estado}}</td>
+                        <td>{{p.fecha}}</td>
+                        <td>{{p.motivo_rechazo}}</td>
+                        <td><button (click)="retirar(p.id_propuesta, p.id_proyecto)" class="btn-submit">Retirar</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError }}
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<app-menu-freelancer></app-menu-freelancer>

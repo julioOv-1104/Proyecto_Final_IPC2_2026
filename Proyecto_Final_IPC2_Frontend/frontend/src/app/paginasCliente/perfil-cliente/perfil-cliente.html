@@ -1,0 +1,43 @@
+<div class="crear-paquetes-page">
+    <h1>Perfil de Cliente</h1>
+    <section class="destinos-card">
+        <header class="destinos-header">
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Username</th>
+                        <th>Correo Electronico</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>CUI</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let u of usuario">
+                        <td>{{ u.nombre_completo }}</td>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.correo }}</td>
+                        <td>{{ u.telefono }}</td>
+                        <td>{{ u.direccion }}</td>
+                        <td>{{ u.cui }}</td>
+                        <td>{{ u.fecha_nacimiento }}</td>
+                        <td>{{ u.saldo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError }}
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<app-menu-cliente></app-menu-cliente>

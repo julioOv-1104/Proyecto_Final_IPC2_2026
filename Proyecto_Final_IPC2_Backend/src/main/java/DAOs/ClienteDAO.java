@@ -676,22 +676,22 @@ public class ClienteDAO extends Usuario {
         return false;
     }
 
-    public boolean cambiarEstadoContrato(int id_contrato, String estado) {
+    public boolean aceptarContrato(int id_contrato) {
 
         try (Connection conn = conexion.conectar()) {
 
-            String sql = "UPDATE contratos SET estado = ? WHERE id_contrato = ?";
+            String sql = "UPDATE contratos SET estado = 'COMPLETADO', fecha_fin = CURRENT_DATE"
+                    + " WHERE id_contrato = ?";
 
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setString(1, estado);
-            stm.setInt(2, id_contrato);
+            stm.setInt(1, id_contrato);
 
             stm.executeUpdate();
 
             return true;
 
         } catch (SQLException e) {
-            System.out.println("ERROR AL CAMBIAR ESTADO DE CONTRATO A " + estado + ", DESDE DAO " + e.getMessage());
+            System.out.println("ERROR AL COMPLETAR CONTRATO DESDE DAO " + e.getMessage());
         }
 
         return false;
@@ -762,7 +762,8 @@ public class ClienteDAO extends Usuario {
 
         try (Connection conn = conexion.conectar()) {
 
-            String sql = "UPDATE contratos SET estado = 'CANCELADO', motivo_cancelacion = ? WHERE id_contrato = ?";
+            String sql = "UPDATE contratos SET estado = 'CANCELADO', motivo_cancelacion = ?,"
+                    + " fecha_fin = CURRENT_DATE WHERE id_contrato = ?";
 
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setString(1, motivo);

@@ -1,0 +1,76 @@
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Contratos</h2>
+            <p>Mis Contratos</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Fecha Inicio</th>
+                        <th>Estado</th>
+                        <th>Monto</th>
+                        <th>Porcentaje</th>
+                        <th>Fecha Fin</th>
+                        <th>Motivo Cancelacion</th>
+                        <th>Enviar Entrega</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of contratos">
+                        <td>{{ c.fecha_inicio }}</td>
+                        <td>{{ c.estado }}</td>
+                        <td>{{ c.monto }}</td>
+                        <td>{{ c.porcentaje }}</td>
+                        <td>{{ c.fecha_fin }}</td>
+                        <td>{{ c.motivo_cancelacion }}</td>
+                        <td><button (click)="mostrarFormulario(c.id_proyecto, c.fecha_inicio, c.id_contrato)" class="btn-submit"
+                            >Enviar Entrega</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError2 }}
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<section *ngIf="activo" class="form-card">
+    <header class="form-header">
+        <h1>Envia una entrega a un proyecto con contrato activo</h1>
+        <h2>Contrato seleccionado activo desde {{fecha}}</h2>
+    </header>
+
+    <form class="paquete-form">
+
+        <div class="field-full">
+            <label for="descripcion">Descripción</label>
+            <textarea [(ngModel)]="descripcion" name="descripcion" id="descripcion" rows="3"></textarea>
+        </div>
+
+
+        <div class="field">
+            <label for="archivo_url">URL del Archivo</label>
+            <input [(ngModel)]="archivo_url" type="text" name="archivo_url" id="archivo_url" required>
+        </div>
+
+        <div class="actions">
+            <button (click)="entregar()" class="btn-submit">Enviar Entrega</button>
+        </div>
+
+    </form>
+
+    <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+        {{ mensajeError }}
+    </div>
+</section>
+
+
+<app-menu-freelancer></app-menu-freelancer>

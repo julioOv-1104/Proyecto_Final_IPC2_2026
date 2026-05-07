@@ -22,6 +22,13 @@ import { ReportesCliente } from './paginasCliente/reportes-cliente/reportes-clie
 import { VinculaProyectoHabilidad } from './paginasCliente/vincula-proyecto-habilidad/vincula-proyecto-habilidad';
 import { SolicitarHabilidad } from './paginasFreelancer/solicitar-habilidad/solicitar-habilidad';
 import { GestionarHabilidades } from './paginasFreelancer/gestionar-habilidades/gestionar-habilidades';
+import { VerProyectos } from './paginasFreelancer/ver-proyectos/ver-proyectos';
+import { VerPropuestas } from './paginasFreelancer/ver-propuestas/ver-propuestas';
+import { VerContratos } from './paginasFreelancer/ver-contratos/ver-contratos';
+import { VerEntregas } from './paginasFreelancer/ver-entregas/ver-entregas';
+import { ReportesFreelancer } from './paginasFreelancer/reportes-freelancer/reportes-freelancer';
+import { PerfilFreelancer } from './paginasFreelancer/perfil-freelancer/perfil-freelancer';
+import { PerfilCliente } from './paginasCliente/perfil-cliente/perfil-cliente';
 
 
 
@@ -50,5 +57,12 @@ export const routes: Routes = [
     { path: 'vincula-habilidad', component: VinculaProyectoHabilidad },
     { path: 'solicitar-habilidad', component: SolicitarHabilidad },
     { path: 'gestionar-habilidades', component: GestionarHabilidades },
+    { path: 'ver-proyectos', component: VerProyectos },
+    { path: 'ver-propuestas', component: VerPropuestas },
+    { path: 'ver-contratos', component: VerContratos },
+    { path: 'ver-entregas', component: VerEntregas },
+    { path: 'reportes-freelancer', component: ReportesFreelancer },
+    { path: 'perfil-freelancer', component: PerfilFreelancer },
+    { path: 'perfil-cliente', component: PerfilCliente },
     { path: 'crear-admins', component: CrearAdmins }
 ];

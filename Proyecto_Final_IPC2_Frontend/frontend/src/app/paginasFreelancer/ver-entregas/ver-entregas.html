@@ -1,0 +1,38 @@
+
+<div class="crear-paquetes-page">
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Entregas</h2>
+            <p>Mis Entregas</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Descripcion</th>
+                        <th>Archivo URL</th>
+                        <th>Fecha de envio</th>
+                        <th>Estado</th>
+                        <th>Motivo Rechazo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let e of entregas">
+                        <td>{{ e.descripcion }}</td>
+                        <td>{{ e.archivo_url }}</td>
+                        <td>{{ e.fecha }}</td>
+                        <td>{{ e.estado }}</td>
+                        <td>{{ e.motivo_rechazo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError }}
+            </div>
+        </div>
+    </section>
+</div>
+
+<app-menu-freelancer></app-menu-freelancer>

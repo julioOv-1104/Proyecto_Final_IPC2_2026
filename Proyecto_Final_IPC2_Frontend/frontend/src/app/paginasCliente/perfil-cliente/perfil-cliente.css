@@ -1,0 +1,146 @@
+.crear-paquetes-page {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  color: #1f3850;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  gap: 1rem;
+}
+
+.destinos-card,
+.form-card {
+  background: #fff;
+  border: 1px solid #cbd4e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.destinos-header,
+.form-header {
+  padding: 0.75rem 1rem;
+  background: #f4f8fb;
+}
+
+.destinos-header h2,
+.form-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #18304a;
+}
+
+.destinos-header p,
+.form-header p {
+  margin: 0.3rem 0 0;
+  font-size: 0.88rem;
+  color: #344b63;
+}
+
+.destinos-table-wrapper {
+  overflow-x: auto;
+  padding: 0.7rem;
+}
+
+.destinos-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 240px;
+}
+
+.destinos-table th,
+.destinos-table td {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #dbe6f0;
+  text-align: left;
+}
+
+.destinos-table th {
+  background: #eaf1f8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1b3550;
+}
+
+.destinos-table tbody tr:nth-child(even) {
+  background: #f8fbff;
+}
+
+.paquete-form {
+  padding: 0.9rem 0.95rem 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.field,
+.field-full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field label,
+.field-full label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #2e4c68;
+}
+
+.field input,
+.field select,
+.field-full textarea {
+  border: 1px solid #b7c8d9;
+  border-radius: 6px;
+  padding: 0.48rem 0.55rem;
+  background: #fff;
+  color: #0f2e48;
+  font-size: 0.9rem;
+}
+
+.field input:focus,
+.field select:focus,
+.field-full textarea:focus {
+  outline: none;
+  border-color: #2a73b4;
+  box-shadow: 0 0 0 2px rgba(42, 115, 180, 0.2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  background: #0f5faf;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.56rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  opacity: 0.95;
+}
+
+@media (max-width: 820px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .crear-paquetes-page {
+    padding: 0.6rem;
+  }
+
+  .btn-submit {
+    width: 100%;
+  }
+}

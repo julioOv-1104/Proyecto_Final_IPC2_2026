@@ -53,7 +53,7 @@ public class ClienteService {
 
         clienteDao.cambiarEstadoProyecto("COMPLETADO", id_proyecto);//se completo el proyecto
         clienteDao.cambiarEstadoEntrega(id_entrega, "ACEPTADA");//Se acepta la entrega
-        clienteDao.cambiarEstadoContrato(id_contrato, "COMPLETADO");// se cambia el estado del contrato a completado
+        clienteDao.aceptarContrato(id_contrato);// se marca el contrato como completado
 
         return clienteDao.calcularComisionYpagar(id_contrato);
 

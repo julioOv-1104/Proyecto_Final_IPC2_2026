@@ -1,0 +1,75 @@
+<div class="crear-paquetes-page">
+    <h1>Perfil de freelancer</h1>
+    <section class="destinos-card">
+        <header class="destinos-header">
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Username</th>
+                        <th>Correo Electronico</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>CUI</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let u of usuario">
+                        <td>{{ u.nombre_completo }}</td>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.correo }}</td>
+                        <td>{{ u.telefono }}</td>
+                        <td>{{ u.direccion }}</td>
+                        <td>{{ u.cui }}</td>
+                        <td>{{ u.fecha_nacimiento }}</td>
+                        <td>{{ u.saldo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError }}
+            </div>
+        </div>
+    </section>
+
+
+    <section class="destinos-card">
+        <header class="destinos-header">
+            <h2>Calificaciones</h2>
+            <p>Calificacion promedio: {{calificacion_promedio}}</p>
+        </header>
+
+        <div class="destinos-table-wrapper">
+            <table class="destinos-table">
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Puntuacion</th>
+                        <th>Comentario</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let c of calificaciones">
+                        <td>{{ c.proyecto }}</td>
+                        <td>{{ c.puntuacion }}</td>
+                        <td>{{ c.comentario }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="mensajeError" style="color: rgb(255, 0, 0);">
+                {{ mensajeError2 }}
+            </div>
+        </div>
+    </section>
+
+
+</div>
+
+<app-menu-freelancer></app-menu-freelancer>
