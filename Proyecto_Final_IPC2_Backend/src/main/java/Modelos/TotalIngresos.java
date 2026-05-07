@@ -5,9 +5,16 @@ public class TotalIngresos {
     
     private int cantidad_contratos;
     private double total_comisiones;
+    private double saldo_sistema;
 
     public TotalIngresos() {
     }
+
+    public TotalIngresos(double saldo_sistema) {
+        this.saldo_sistema = saldo_sistema;
+    }
+    
+    
 
     public TotalIngresos(int cantidad_contratos, double total_comisiones) {
         this.cantidad_contratos = cantidad_contratos;
@@ -28,6 +35,14 @@ public class TotalIngresos {
 
     public void setTotal_comisiones(double total_comisiones) {
         this.total_comisiones = total_comisiones;
+    }
+
+    public double getSaldo_sistema() {
+        return saldo_sistema;
+    }
+
+    public void setSaldo_sistema(double saldo_sistema) {
+        this.saldo_sistema = saldo_sistema;
     }
     
     

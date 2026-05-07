@@ -162,18 +162,23 @@ public class ReportesAdminDAO {
         try (Connection conn = conexion.conectar()) {
 
             String sql = "SELECT \n"
-                    + "    COUNT(c.id_contrato) AS cantidad_contratos,\n"
-                    + "    IFNULL(SUM((c.monto * com.porcentaje) / 100), 0) AS total_comisiones\n"
-                    + "FROM Contratos c\n"
-                    + "JOIN Comisiones com \n"
-                    + "    ON c.fecha_inicio >= com.fecha_inicio\n"
-                    + "    AND (com.fecha_fin IS NULL OR c.fecha_inicio <= com.fecha_fin)\n"
-                    + "WHERE c.estado = 'COMPLETADO'\n"
-                    + "AND c.fecha_inicio BETWEEN ? AND ?";
+                    + "    COUNT(id_contrato) AS cantidad_contratos,\n"
+                    + "\n"
+                    + "    IFNULL(\n"
+                    + "        SUM((monto * porcentaje) / 100),\n"
+                    + "        0\n"
+                    + "    ) AS total_comisiones\n"
+                    + "\n"
+                    + "FROM Contratos\n"
+                    + "\n"
+                    + "WHERE estado = 'COMPLETADO'\n"
+                    + "\n"
+                    + "AND fecha_fin BETWEEN ? AND ?";
 
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setDate(1, fecha_inicio);
             stm.setDate(2, fecha_fin);
+            
 
             ResultSet rs = stm.executeQuery();
 
@@ -181,7 +186,7 @@ public class ReportesAdminDAO {
                 TotalIngresos totalIngresos = new TotalIngresos();
                 totalIngresos.setCantidad_contratos(rs.getInt("cantidad_contratos"));
                 totalIngresos.setTotal_comisiones(rs.getDouble("total_comisiones"));
-                
+
                 return totalIngresos;
 
             }

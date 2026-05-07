@@ -133,13 +133,13 @@ public class AdminDAO {
             String sql = "INSERT INTO habilidades (id_categoria, nombre, descripcion) VALUES (?, ?, ?)";
 
             PreparedStatement stm = conn.prepareStatement(sql);
-            
+
             if (id_categoria == 0) {//si es 0 es porque viene de una solicitud
                 stm.setNull(1, java.sql.Types.INTEGER);
-            }else{
+            } else {
                 stm.setInt(1, id_categoria);
-            }          
-            
+            }
+
             stm.setString(2, nombre);
             stm.setString(3, descripcion);
 
@@ -300,8 +300,7 @@ public class AdminDAO {
 
         return solicitudes;
     }
-    
-    
+
     public boolean aceptarRechazarSolicitudCategoria(int id_solicitud, String estado, String nombre, String descripcion) {
 
         try (Connection conn = conexion.conectar()) {
@@ -316,7 +315,7 @@ public class AdminDAO {
             if (estado.equals("RECHAZADA")) {
                 return true;
             }
-            
+
             if (estado.equals("ACEPTADA")) {
                 return registrarCategoria(nombre, descripcion);
             }
@@ -327,7 +326,7 @@ public class AdminDAO {
 
         return false;
     }
-    
+
     public boolean aceptarRechazarSolicitudHabilidad(int id_solicitud, String estado, String nombre, String descripcion) {
 
         try (Connection conn = conexion.conectar()) {
@@ -342,7 +341,7 @@ public class AdminDAO {
             if (estado.equals("RECHAZADA")) {
                 return true;
             }
-            
+
             if (estado.equals("ACEPTADA")) {
                 return registrarHabilidad(0, nombre, descripcion);
             }
@@ -353,5 +352,37 @@ public class AdminDAO {
 
         return false;
     }
-    
+
+    public TotalIngresos obtenerSaldoSistema() {
+
+        try (Connection conn = conexion.conectar()) {
+
+            String sql = "SELECT \n"
+                    + "    IFNULL(\n"
+                    + "        SUM((monto * porcentaje) / 100),\n"
+                    + "        0\n"
+                    + "    ) AS saldo_sistema\n"
+                    + "\n"
+                    + "FROM Contratos\n"
+                    + "\n"
+                    + "WHERE estado = 'COMPLETADO'";
+
+            PreparedStatement stm = conn.prepareStatement(sql);
+            //obtiene el saldo del sistema caculado por los contratos completados
+
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                TotalIngresos totalIngresos = new TotalIngresos(rs.getDouble("saldo_sistema"));
+
+                return totalIngresos;
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER SALDO DEL SITEMA DESDE DAO: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

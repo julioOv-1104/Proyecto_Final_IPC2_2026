@@ -468,7 +468,7 @@ public class FreelancerServlet extends HttpServlet {
     }
 
     private void obtenerCalificaciones(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-       
+
         try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
@@ -490,7 +490,7 @@ public class FreelancerServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("ERROR AL OBTENER CALIFICACIONES DE FREELANCER DESDE SERVLET: " + e.getMessage());
         }
-        
+
     }
 
 }

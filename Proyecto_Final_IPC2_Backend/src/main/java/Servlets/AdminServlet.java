@@ -49,6 +49,9 @@ public class AdminServlet extends HttpServlet {
                 case "solicitudesCategorias":
                     obtenerSolicitudesCategorias(request, response, om);
                     break;
+                case "obtenerSaldo":
+                    obtenerSaldo(request, response, om);
+                    break;
 
                 default:
 
@@ -161,7 +164,7 @@ public class AdminServlet extends HttpServlet {
                 response.getWriter().print(json);
             }
         } catch (Exception e) {
-            System.out.println("ERROR AL OBTENER COMISION DESDE SERVLET");
+            System.out.println("ERROR AL OBTENER COMISION DESDE SERVLET "+e.getMessage());
         }
 
     }
@@ -408,10 +411,10 @@ public class AdminServlet extends HttpServlet {
 
             if (!adminDao.aceptarRechazarSolicitudCategoria(id_solicitud, estado, nombre, descripcion)) {
 
-                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al "+estado+" solcitud de categoria\"}");
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al " + estado + " solcitud de categoria\"}");
 
             } else {
-                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Solicitud de categoria "+estado+" con exito\"}");
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Solicitud de categoria " + estado + " con exito\"}");
 
             }
 
@@ -421,7 +424,7 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void aceptarRechazarHabilidad(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
-     
+
         try {
 
             Map<String, Object> datos = om.readValue(request.getInputStream(), Map.class);
@@ -433,16 +436,39 @@ public class AdminServlet extends HttpServlet {
 
             if (!adminDao.aceptarRechazarSolicitudHabilidad(id_solicitud, estado, nombre, descripcion)) {
 
-                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al "+estado+" solcitud de habilidad\"}");
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Error al " + estado + " solcitud de habilidad\"}");
 
             } else {
-                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Solicitud de habilidad "+estado+" con exito\"}");
+                response.getWriter().print("{\"status\":\"exito\",\"mensaje\":\"Solicitud de habilidad " + estado + " con exito\"}");
 
             }
 
         } catch (Exception e) {
         }
-        
+
+    }
+
+    private void obtenerSaldo(HttpServletRequest request, HttpServletResponse response, ObjectMapper om) {
+
+        try {
+
+            TotalIngresos saldo = new TotalIngresos();
+
+            saldo = adminDao.obtenerSaldoSistema();
+
+            if (saldo == null) {
+                response.getWriter().print("{\"status\":\"error\",\"mensaje\":\"Ocurrio un error al obtener el saldo\"}");
+
+            } else {
+
+                String json = om.writeValueAsString(saldo);
+                response.getWriter().print(json);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("ERROR AL OBTENER EL SALDO DEL SISTEMA DESDE SERVLET "+e.getMessage());
+        }
     }
 
 }

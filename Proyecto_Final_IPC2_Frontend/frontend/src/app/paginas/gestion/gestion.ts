@@ -5,6 +5,7 @@ import { UsuarioModel } from '../../modelos/usuario-model';
 import { UsuarioService } from '../../servicios/usuario.service';
 import { AdminService } from '../../servicios/admin.service';
 import { MenuAdmin } from '../../menus/menu-admin/menu-admin';
+import { TotalIngresosModel } from '../../modelos/total-ingresos-model';
 
 @Component({
   selector: 'app-gestion',
@@ -21,11 +22,13 @@ export class Gestion {
   mensajeError: string | null = null;
   comision_actual: number = 0;
   nueva_comision: number = 0;
+  saldo?: TotalIngresosModel;
 
   ngOnInit() {
     this.obtenerClientes();
     this.obtenerFreelancers();
     this.obtenerComisionActual();
+    this.obtenerSaldo();
     console.log('Clientes y freelancers cargados');
   }
 
@@ -34,6 +37,16 @@ export class Gestion {
     this.usuarioService.obtenerClientes().subscribe(data => {
 
       this.clientes = data;
+
+    });
+
+  }
+
+  obtenerSaldo() {
+
+    this.adminService.obtenerSaldoSistema().subscribe(data => {
+
+      this.saldo = data;
 
     });
 

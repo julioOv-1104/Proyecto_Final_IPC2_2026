@@ -5,6 +5,7 @@ import { ComisionModel } from '../modelos/comision-model';
 import { CategoriaModel } from '../modelos/categoria-model';
 import { HabilidadModel } from '../modelos/habilidad-model';
 import { SolicitudModel } from '../modelos/solicitud-model';
+import { TotalIngresosModel } from '../modelos/total-ingresos-model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export class AdminService {
   obtenerSolicitudHabilidadUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/AdminServlet?accion=solicitudesHabilidades';
   gestionarSolicitudCategoriaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/AdminServlet?accion=aceptarSolicitudCategoria';
   gestionarSolicitudHabilidadUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/AdminServlet?accion=aceptarSolicitudHabilidad';
-
+  obtenerSaldoSistemaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/AdminServlet?accion=obtenerSaldo';
+  
 
 
 
@@ -85,6 +87,10 @@ export class AdminService {
 
   gestionarSolicitudHabilidad(id_solicitud: number, estado: string, nombre: string, descripcion: string) {
     return this.http.put(this.gestionarSolicitudHabilidadUrl, { id_solicitud, estado, nombre, descripcion });
+  }
+
+  obtenerSaldoSistema(): Observable<TotalIngresosModel> {
+    return this.http.get<TotalIngresosModel>(this.obtenerSaldoSistemaUrl);
   }
 
 }

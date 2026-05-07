@@ -28,7 +28,6 @@ export class FreelancerService {
   enviarEntregaUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet?accion=registrarEntrega';
   obtenerEntregasUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet?accion=obtenerEntregas';
   obtenerCalificacionesUrl = 'http://localhost:8080/Proyecto_Final_IPC2_Backend/FreelancerServlet?accion=obtenerCalificaciones';
-  
 
 
 
